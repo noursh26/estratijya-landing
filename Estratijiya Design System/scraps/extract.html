@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{margin:0;background:#111;display:flex;flex-direction:column;gap:4px}canvas{display:block;max-width:100%}</style></head><body>
+<script type="module">
+import * as pdfjs from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.7.76/build/pdf.min.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@4.7.76/build/pdf.worker.min.mjs';
+const doc = await pdfjs.getDocument({url:'../uploads/str-profile.pdf'}).promise;
+const crops=[
+ {id:'mark',      p:1, x:0.128,y:0.245,w:0.075,h:0.13, s:7},
+ {id:'lockup',    p:1, x:0.125,y:0.245,w:0.375,h:0.13, s:5},
+ {id:'cover',     p:1, x:0,y:0,w:1,h:1, s:2.2},
+ {id:'city',      p:7, x:0,y:0.275,w:1,h:0.725, s:2.2},
+ {id:'corridor',  p:9, x:0,y:0,w:0.425,h:1, s:2.6},
+ {id:'stairs',    p:5, x:0,y:0,w:0.30,h:1, s:2.6},
+ {id:'puzzle',    p:4, x:0.593,y:0.125,w:0.407,h:0.875, s:2.6},
+ {id:'folder',    p:8, x:0.545,y:0.04,w:0.455,h:0.96, s:2.6},
+ {id:'signage',   p:10,x:0,y:0.36,w:1,h:0.64, s:2.2}
+];
+for(const c of crops){ try{
+  const page = await doc.getPage(c.p);
+  const base = page.getViewport({scale:1});
+  const vp = page.getViewport({scale:c.s});
+  const full = document.createElement('canvas'); full.width=vp.width; full.height=vp.height;
+  await page.render({canvasContext:full.getContext('2d'),viewport:vp}).promise;
+  const out = document.createElement('canvas');
+  out.id=c.id; out.width=Math.round(c.w*vp.width); out.height=Math.round(c.h*vp.height);
+  out.getContext('2d').drawImage(full, Math.round(c.x*vp.width), Math.round(c.y*vp.height), out.width, out.height, 0,0,out.width,out.height);
+  document.body.appendChild(out);
+ } catch(e){ console.error(c.id, e.message); }
+}
+window.__done=true;
+</script></body></html>

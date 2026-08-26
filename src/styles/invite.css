@@ -1,0 +1,95 @@
+/* ══ THE INVITATION DIAL ════════════════════════════════════════════════ */
+.invite{
+  position:relative;padding-block:var(--section-y);overflow:hidden;isolation:isolate;
+}
+.invite__glow{
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(46% 46% at 74% 50%,rgba(100,216,147,.13) 0%,transparent 70%);
+}
+.invite__grid{
+  display:grid;gap:var(--space-16);align-items:center;
+  grid-template-columns:minmax(0,1fr) minmax(0,.92fr);
+}
+.invite__copy{display:grid;gap:var(--space-5)}
+.invite__title{max-inline-size:14ch}
+
+.invite__result{
+  margin-block-start:var(--space-6);padding-block-start:var(--space-8);
+  border-block-start:var(--rule-on-dark);display:grid;gap:var(--space-3);
+  min-block-size:170px;align-content:start;
+}
+.invite__result h3{font-size:clamp(1.5rem,3vw,2.2rem);letter-spacing:var(--tracking-tight);color:var(--green-500)}
+.invite__result p{color:var(--text-on-dark-muted);line-height:var(--leading-relaxed);max-inline-size:44ch}
+.invite__result-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-6);margin-block-start:var(--space-3)}
+.invite__again{
+  font:var(--weight-medium) var(--text-sm)/1 var(--font-core);color:var(--text-on-dark-muted);
+  border-block-end:1px solid var(--border-on-dark);padding-block-end:3px;
+  transition:color var(--dur-fast) var(--ease-in-out),border-color var(--dur-fast) var(--ease-in-out);
+}
+.invite__again:hover{color:var(--green-500);border-block-end-color:var(--green-500)}
+.invite__placeholder{
+  font:var(--weight-medium) var(--text-sm)/1.6 var(--font-core);
+  letter-spacing:var(--tracking-wide);text-transform:uppercase;
+  color:var(--text-on-dark-muted);
+}
+
+/* ── the dial itself ────────────────────────────────────────────────────── */
+.invite__wheel{
+  position:relative;justify-self:center;
+  inline-size:min(100%,520px);aspect-ratio:1;
+  display:grid;place-items:center;
+}
+.invite__svg{inline-size:100%;block-size:100%;overflow:visible}
+.invite__rotor{cursor:grab;touch-action:none}
+.invite__rotor:active{cursor:grabbing}
+
+.invite__rim{fill:none;stroke:rgba(237,244,241,.16);stroke-width:1}
+.invite__seg path{
+  fill:var(--teal-800);
+  stroke:rgba(237,244,241,.16);stroke-width:1;
+  transition:fill var(--dur-slow) var(--ease-in-out);
+}
+.invite__seg:nth-child(even) path{fill:var(--teal-700)}
+.invite__seg text{
+  fill:var(--text-on-dark);
+  font-family:var(--font-core);font-weight:var(--weight-semibold);font-size:15px;
+  letter-spacing:.02em;pointer-events:none;
+  transition:fill var(--dur-slow) var(--ease-in-out);
+}
+.invite__pip{fill:rgba(100,216,147,.55)}
+.invite__seg.is-won path{fill:var(--green-500)}
+.invite__seg.is-won text{fill:var(--teal-900);font-weight:var(--weight-bold)}
+.invite__hub{fill:var(--teal-900);stroke:var(--green-500);stroke-width:1.5}
+
+.invite__needle{
+  position:absolute;inset-block-start:-6px;inset-inline-start:50%;
+  transform:translateX(-50%);z-index:4;
+  inline-size:0;block-size:0;
+  border-inline:11px solid transparent;
+  border-block-start:26px solid var(--green-500);
+  filter:drop-shadow(0 4px 10px rgba(3,27,28,.6));
+}
+.invite__pulse{
+  position:absolute;inset:0;border-radius:50%;
+  border:2px solid var(--green-500);opacity:0;pointer-events:none;z-index:1;
+}
+.invite__mark{
+  position:absolute;inline-size:44px;z-index:3;pointer-events:none;
+  filter:drop-shadow(0 2px 8px rgba(3,27,28,.5));
+}
+.invite__spin{
+  position:absolute;inset-block-end:-26px;z-index:5;
+  padding:var(--space-4) var(--space-8);
+}
+.invite__spin:disabled{opacity:.55;cursor:not-allowed}
+
+@media (max-width:900px){
+  .invite__grid{grid-template-columns:1fr;gap:var(--space-20)}
+  .invite__wheel{inline-size:min(86vw,420px)}
+  .invite__seg text{font-size:16px}
+  .invite__result{min-block-size:0}
+}
+@media (max-width:420px){
+  .invite__seg text{font-size:18px}
+  .invite__mark{inline-size:34px}
+}

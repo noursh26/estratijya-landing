@@ -1,0 +1,69 @@
+/* ── Estratijiya colour system ────────────────────────────────────────────────
+   Brand values were sampled from the supplied logo files and the company
+   profile deck (Str profile.pdf). Values marked (derived) are tints/shades
+   computed for interface needs — they do not appear in the source material.  */
+:root{
+  /* Growth green — the single brand accent. green-500 is the logo colour. */
+  --green-100:#E7FAF0; /* derived */
+  --green-200:#CBF4DD; /* derived */
+  --green-300:#A9EBC4; /* derived */
+  --green-400:#86E2AC; /* derived */
+  --green-500:#64D893; /* BRAND — assets/logo-green.png */
+  --green-600:#45C77C; /* derived — hover */
+  --green-700:#2FA863; /* derived — press */
+
+  /* Deep teal — the brand's dark ground. */
+  --teal-400:#4E9A94; /* derived */
+  --teal-500:#2A7672; /* profile imagery mid-tone */
+  --teal-600:#0D393B; /* profile section ground (light) */
+  --teal-700:#0A3538; /* profile section ground */
+  --teal-800:#072A2B; /* derived */
+  --teal-900:#031B1C; /* cover + contact ground — deepest ink */
+
+  /* Sage / paper — the light side of the brand. */
+  --sage-200:#C3D6D4; /* derived */
+  --sage-300:#99B5B6; /* profile mid-light */
+  --paper-000:#FFFFFF;
+  --paper-050:#F6FAF8; /* derived */
+  --paper-100:#EDF4F1; /* BRAND paper — profile light pages */
+
+  /* Status — brand defines none; these are derived, tuned to the palette. */
+  --status-success:#45C77C;
+  --status-warning:#D8A33E;
+  --status-danger:#C4453C;
+
+  /* ── Semantic aliases ─────────────────────────────────────────────── */
+  --surface-page:var(--paper-100);
+  --surface-page-alt:var(--paper-050);
+  --surface-card:var(--paper-000);
+  --surface-ink:var(--teal-900);
+  --surface-dark:var(--teal-700);
+  --surface-dark-alt:var(--teal-800);
+  --surface-accent:var(--green-500);
+  --surface-accent-soft:var(--green-100);
+  --surface-raised-on-dark:rgba(255,255,255,.04);
+  --surface-scrim:rgba(3,27,28,.72);
+
+  --text-heading:var(--teal-900);
+  --text-body:#12403C;
+  --text-muted:#54736F;
+  --text-accent:var(--green-600);
+  --text-on-dark:var(--paper-100);
+  --text-on-dark-muted:rgba(237,244,241,.68);
+  --text-on-accent:var(--teal-900);
+  --text-link:var(--green-700);
+  --text-link-hover:var(--teal-900);
+
+  --border-subtle:rgba(3,27,28,.10);
+  --border-strong:rgba(3,27,28,.22);
+  --border-accent:var(--green-500);
+  --border-on-dark:rgba(237,244,241,.16);
+  --border-on-dark-strong:rgba(237,244,241,.34);
+
+  --focus-ring:var(--green-500);
+  --focus-ring-on-dark:var(--green-400);
+
+  /* Full-bleed protection gradients over brand photography. */
+  --scrim-bottom:linear-gradient(180deg,rgba(3,27,28,0) 0%,rgba(3,27,28,.55) 55%,rgba(3,27,28,.92) 100%); /* @kind other */
+  --scrim-start:linear-gradient(90deg,rgba(3,27,28,.92) 0%,rgba(3,27,28,.55) 45%,rgba(3,27,28,0) 100%); /* @kind other */
+}

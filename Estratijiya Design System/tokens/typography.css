@@ -1,0 +1,47 @@
+/* Estratijiya typography. One family, four weights, two scripts.
+   The Latin wordmark in the logo is lettering (an asset) — never set it in type. */
+:root{
+  --font-core:"IBM Plex Sans Arabic","IBM Plex Sans",system-ui,"Segoe UI",sans-serif;
+  --font-arabic:"IBM Plex Sans Arabic","Noto Sans Arabic",sans-serif;
+
+  --weight-regular:400;
+  --weight-medium:500;
+  --weight-semibold:600;
+  --weight-bold:700;
+
+  /* Scale — 1.25 major third, anchored at 16px body. */
+  --text-2xs:11px;
+  --text-xs:12px;
+  --text-sm:14px;
+  --text-base:16px;
+  --text-md:18px;
+  --text-lg:20px;
+  --text-xl:24px;
+  --text-2xl:30px;
+  --text-3xl:38px;
+  --text-4xl:48px;
+  --text-5xl:60px;
+  --text-6xl:76px;
+
+  --leading-tight:1.08;
+  --leading-snug:1.22;
+  --leading-normal:1.5;
+  --leading-relaxed:1.75;   /* Arabic body — needs the extra air */
+
+  --tracking-wide:.08em;    /* eyebrows, section labels */
+  --tracking-wider:.18em;   /* ESTRATIJIYA in type-set contexts, nav overlines */
+  --tracking-tight:-.02em;  /* display headings */
+  --tracking-none:0;
+
+  /* Roles */
+  --type-display:var(--weight-bold) var(--text-5xl)/var(--leading-tight) var(--font-core);
+  --type-h1:var(--weight-bold) var(--text-4xl)/var(--leading-tight) var(--font-core);
+  --type-h2:var(--weight-bold) var(--text-3xl)/var(--leading-snug) var(--font-core);
+  --type-h3:var(--weight-semibold) var(--text-xl)/var(--leading-snug) var(--font-core);
+  --type-h4:var(--weight-semibold) var(--text-md)/var(--leading-snug) var(--font-core);
+  --type-body:var(--weight-regular) var(--text-base)/var(--leading-normal) var(--font-core);
+  --type-body-lg:var(--weight-regular) var(--text-md)/var(--leading-relaxed) var(--font-core);
+  --type-small:var(--weight-regular) var(--text-sm)/var(--leading-normal) var(--font-core);
+  --type-eyebrow:var(--weight-medium) var(--text-xs)/1.4 var(--font-core);
+  --type-numeral:var(--weight-bold) var(--text-sm)/1 var(--font-core);
+}

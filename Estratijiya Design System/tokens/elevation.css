@@ -1,0 +1,19 @@
+/* Elevation is restrained: the brand separates with colour and outline first,
+   shadow second. Never a coloured or offset-heavy drop shadow. */
+:root{
+  --shadow-none:none;
+  --shadow-xs:0 1px 2px rgba(3,27,28,.06);
+  --shadow-sm:0 2px 8px rgba(3,27,28,.06);
+  --shadow-md:0 8px 24px rgba(3,27,28,.08);
+  --shadow-lg:0 20px 48px rgba(3,27,28,.12);
+  --shadow-card:var(--shadow-sm);
+  --shadow-card-hover:var(--shadow-md);
+  --shadow-accent-glow:0 8px 28px rgba(100,216,147,.28); /* mint CTA on dark only */
+
+  /* Inner hairline used on dark surfaces instead of a shadow. */
+  --inset-hairline:inset 0 0 0 1px rgba(237,244,241,.12);
+
+  --blur-glass:14px;
+  --glass-on-dark:rgba(10,53,56,.72);
+  --glass-on-light:rgba(255,255,255,.72);
+}

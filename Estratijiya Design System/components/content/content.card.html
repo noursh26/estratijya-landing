@@ -1,0 +1,46 @@
+<!-- @dsCard group="Components" viewport="700x520" name="Content" subtitle="Service tiles, method steps, stats, checklists, values, partner chips" -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Content</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;padding:20px;background:var(--surface-page);font:var(--type-body)}.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.dark{background:var(--surface-dark);border-radius:var(--radius-card);padding:16px}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}</style>
+</head><body><div id="root"></div>
+<script type="text/babel">
+const { ServiceCard, StepCard, StatBlock, CheckList, DeliverableCard, ValueRow, PartnerChip, Divider } = window.EstratijiyaDesignSystem_92e519;
+function Demo(){
+  const [open,setOpen]=React.useState('02');
+  return (
+  <div style={{display:'grid',gap:16}}>
+    <div className="g2">
+      <ServiceCard title="Branding" description="Become recognized. We build the visual identity that makes you the first name your customers remember." href="#"/>
+      <ServiceCard featured title="Personal Branding" description="The founder is the first impression. We turn visibility into a commercial asset." href="#"/>
+    </div>
+    <div className="dark" style={{display:'grid',gap:12}}>
+      <div className="g2">
+        <StepCard index="01" title="Discovery & Analysis" detail="We understand your current position, competitors, gaps, and strengths." expanded={open==='01'} onToggle={()=>setOpen('01')}/>
+        <StepCard index="02" title="Setting goals" detail="Strategic, measurable goals within a clear timeframe." expanded={open==='02'} onToggle={()=>setOpen('02')}/>
+      </div>
+      <div className="row" style={{gap:24}}>
+        <StatBlock prefix="+" value="40" label="Active clients"/>
+        <Divider onDark vertical style={{height:48}}/>
+        <StatBlock value="7" label="Integrated divisions"/>
+        <Divider onDark vertical style={{height:48}}/>
+        <div className="row"><PartnerChip name="Royal Golf"/><PartnerChip name="The Date Room"/><PartnerChip name="Petravex"/></div>
+      </div>
+      <div className="g2">
+        <ValueRow label="Clarity" body="We say what we found, not what you want to hear."/>
+        <ValueRow label="Structure" body="Everything has a place; every task has an owner."/>
+      </div>
+    </div>
+    <div className="g2">
+      <CheckList items={["Feasibility study and a detailed business plan","Operating structure and SOPs before your first client","A consistent commercial and personal brand"]}/>
+      <div className="g2" style={{gap:16}}>
+        <DeliverableCard index="03" title="Full client-management automation" body="We connected the systems and automated follow-up from first meeting to closed deal."/>
+        <DeliverableCard index="05" title="A sales funnel from zero" body="We built the channels and designed the journey from first contact to signed deal."/>
+      </div>
+    </div>
+  </div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

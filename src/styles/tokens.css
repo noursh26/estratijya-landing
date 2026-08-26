@@ -1,0 +1,130 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Estratijiya — brand tokens.
+   Values are taken verbatim from "Estratijiya Design System/tokens/*".
+   Nothing here is invented; the only additions are the cinematic motion
+   durations at the bottom, which extend the brand's easing, not replace it.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@font-face{font-family:"IBM Plex Sans Arabic";src:url("/assets/fonts/IBMPlexSansArabic-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url("/assets/fonts/IBMPlexSansArabic-Medium.ttf") format("truetype");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url("/assets/fonts/IBMPlexSansArabic-SemiBold.ttf") format("truetype");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Sans Arabic";src:url("/assets/fonts/IBMPlexSansArabic-Bold.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
+
+:root{
+  /* Growth green — the single brand accent. green-500 is the logo colour. */
+  --green-100:#E7FAF0;
+  --green-200:#CBF4DD;
+  --green-300:#A9EBC4;
+  --green-400:#86E2AC;
+  --green-500:#64D893;   /* BRAND */
+  --green-600:#45C77C;
+  --green-700:#2FA863;
+
+  /* Deep teal — the brand's dark ground. */
+  --teal-400:#4E9A94;
+  --teal-500:#2A7672;
+  --teal-600:#0D393B;
+  --teal-700:#0A3538;
+  --teal-800:#072A2B;
+  --teal-900:#031B1C;
+
+  /* Sage / paper — the light side of the brand. */
+  --sage-200:#C3D6D4;
+  --sage-300:#99B5B6;
+  --paper-000:#FFFFFF;
+  --paper-050:#F6FAF8;
+  --paper-100:#EDF4F1;   /* BRAND paper */
+
+  --status-success:#45C77C;
+  --status-warning:#D8A33E;
+  --status-danger:#C4453C;
+
+  /* ── Semantic ─────────────────────────────────────────────────────────── */
+  --surface-page:var(--paper-100);
+  --surface-card:var(--paper-000);
+  --surface-ink:var(--teal-900);
+  --surface-dark:var(--teal-700);
+  --surface-dark-alt:var(--teal-800);
+  --surface-accent:var(--green-500);
+  --surface-accent-soft:var(--green-100);
+  --surface-raised-on-dark:rgba(255,255,255,.04);
+  --surface-scrim:rgba(3,27,28,.72);
+
+  --text-heading:var(--teal-900);
+  --text-body:#12403C;
+  --text-muted:#54736F;
+  --text-accent:var(--green-600);
+  --text-on-dark:var(--paper-100);
+  --text-on-dark-muted:rgba(237,244,241,.68);
+  --text-on-accent:var(--teal-900);
+
+  --border-subtle:rgba(3,27,28,.10);
+  --border-strong:rgba(3,27,28,.22);
+  --border-accent:var(--green-500);
+  --border-on-dark:rgba(237,244,241,.16);
+  --border-on-dark-strong:rgba(237,244,241,.34);
+
+  --focus-ring:var(--green-500);
+  --focus-ring-on-dark:var(--green-400);
+
+  --scrim-bottom:linear-gradient(180deg,rgba(3,27,28,0) 0%,rgba(3,27,28,.55) 55%,rgba(3,27,28,.92) 100%);
+  --scrim-start:linear-gradient(90deg,rgba(3,27,28,.92) 0%,rgba(3,27,28,.55) 45%,rgba(3,27,28,0) 100%);
+
+  /* ── Type ─────────────────────────────────────────────────────────────── */
+  --font-core:"IBM Plex Sans Arabic","IBM Plex Sans",system-ui,"Segoe UI",sans-serif;
+
+  --weight-regular:400; --weight-medium:500; --weight-semibold:600; --weight-bold:700;
+
+  --text-2xs:11px; --text-xs:12px; --text-sm:14px; --text-base:16px; --text-md:18px;
+  --text-lg:20px; --text-xl:24px; --text-2xl:30px; --text-3xl:38px; --text-4xl:48px;
+  --text-5xl:60px; --text-6xl:76px;
+
+  --leading-tight:1.08; --leading-snug:1.22; --leading-normal:1.5; --leading-relaxed:1.75;
+  --tracking-wide:.08em; --tracking-wider:.18em; --tracking-tight:-.02em; --tracking-none:0;
+
+  /* ── Space ────────────────────────────────────────────────────────────── */
+  --space-1:4px;  --space-2:8px;  --space-3:12px; --space-4:16px; --space-5:20px;
+  --space-6:24px; --space-8:32px; --space-10:40px;--space-12:48px;--space-16:64px;
+  --space-20:80px;--space-24:96px;--space-32:128px;--space-40:160px;
+
+  --section-y:var(--space-32);
+  --section-y-tight:var(--space-20);
+  --gutter:var(--space-6);
+  --gutter-lg:var(--space-16);
+  --container:1240px;
+  --shell:min(calc(100vw - (var(--gutter) * 2)), var(--container));
+
+  /* ── Shape ────────────────────────────────────────────────────────────── */
+  --radius-xs:4px; --radius-sm:8px;  --radius-md:12px; --radius-lg:16px;
+  --radius-xl:24px; --radius-2xl:32px; --radius-pill:999px;
+  --radius-card:var(--radius-lg);
+  --radius-media:var(--radius-xl);
+  --rule:1px solid var(--border-subtle);
+  --rule-on-dark:1px solid var(--border-on-dark);
+
+  /* ── Elevation ────────────────────────────────────────────────────────── */
+  --shadow-xs:0 1px 2px rgba(3,27,28,.06);
+  --shadow-sm:0 2px 8px rgba(3,27,28,.06);
+  --shadow-md:0 8px 24px rgba(3,27,28,.08);
+  --shadow-lg:0 20px 48px rgba(3,27,28,.12);
+  --shadow-accent-glow:0 8px 28px rgba(100,216,147,.28);
+  --inset-hairline:inset 0 0 0 1px rgba(237,244,241,.12);
+  --blur-glass:14px;
+
+  /* ── Motion ───────────────────────────────────────────────────────────── */
+  --dur-instant:80ms; --dur-fast:160ms; --dur-base:240ms; --dur-slow:420ms;
+  --dur-reveal:720ms;
+  /* cinematic extensions — same easing family, longer arcs */
+  --dur-cinema:1200ms; --dur-cinema-long:1800ms;
+
+  --ease-standard:cubic-bezier(.2,0,.2,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-in-out:cubic-bezier(.4,0,.2,1);
+  --transition-hover:background-color var(--dur-fast) var(--ease-in-out),color var(--dur-fast) var(--ease-in-out),border-color var(--dur-fast) var(--ease-in-out),box-shadow var(--dur-base) var(--ease-out),transform var(--dur-fast) var(--ease-out);
+  --press-scale:.98;
+  --reveal-travel:24px;
+}
+
+@media (min-width:900px){
+  :root{ --gutter:var(--gutter-lg); }
+}

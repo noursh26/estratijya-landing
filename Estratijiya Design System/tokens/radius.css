@@ -1,0 +1,22 @@
+/* The brand's shape language: soft, generous rounding; pills for actions. */
+:root{
+  --radius-xs:4px;
+  --radius-sm:8px;
+  --radius-md:12px;
+  --radius-lg:16px;
+  --radius-xl:24px;
+  --radius-2xl:32px;
+  --radius-pill:999px;
+
+  --radius-card:var(--radius-lg);
+  --radius-card-lg:var(--radius-xl);
+  --radius-button:var(--radius-pill);
+  --radius-input:var(--radius-md);
+  --radius-media:var(--radius-xl);
+  --radius-chip:var(--radius-pill);
+
+  --border-width:1px;
+  --border-width-strong:2px;
+  --rule:1px solid var(--border-subtle);
+  --rule-on-dark:1px solid var(--border-on-dark);
+}

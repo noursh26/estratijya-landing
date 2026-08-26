@@ -1,0 +1,117 @@
+/* Reset + brand defaults. Logical properties throughout so the layout is bidi-ready. */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--teal-900)}
+body{
+  margin:0;min-width:320px;overflow-x:hidden;
+  font:var(--weight-regular) var(--text-base)/var(--leading-normal) var(--font-core);
+  color:var(--text-on-dark);background:var(--teal-900);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  font-synthesis:none;
+}
+body.is-locked{overflow:hidden}
+h1,h2,h3,h4{margin:0;color:inherit;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+img,svg,video,canvas{display:block;max-width:100%}
+ul,ol{margin:0;padding:0;list-style:none}
+::selection{background:var(--green-500);color:var(--teal-900)}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px;border-radius:var(--radius-xs)}
+
+.skip-link{
+  position:fixed;inset-block-start:var(--space-2);inset-inline-start:var(--space-2);
+  z-index:200;padding:var(--space-3) var(--space-5);border-radius:var(--radius-pill);
+  background:var(--green-500);color:var(--teal-900);font-weight:var(--weight-semibold);
+  transform:translateY(-160%);transition:transform var(--dur-base) var(--ease-out);
+}
+.skip-link:focus-visible{transform:none}
+
+/* One container. Never put a max-inline-size on the .shell element itself —
+   it would shrink and re-centre the whole block. Constrain a child instead. */
+.shell{width:100%;max-inline-size:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
+
+/* ── Type roles ─────────────────────────────────────────────────────────── */
+.display{
+  font-weight:var(--weight-bold);line-height:var(--leading-tight);
+  letter-spacing:var(--tracking-tight);
+  font-size:clamp(2.4rem,7.4vw,5.6rem);
+}
+.display--xl{font-size:clamp(2.9rem,10.2vw,8.4rem)}
+.h2{
+  font-weight:var(--weight-bold);line-height:var(--leading-snug);
+  letter-spacing:var(--tracking-tight);
+  font-size:clamp(1.75rem,4vw,3.1rem);
+}
+.h3{font:var(--weight-semibold) var(--text-xl)/var(--leading-snug) var(--font-core)}
+.lede{
+  font-size:clamp(1rem,1.5vw,1.22rem);line-height:var(--leading-relaxed);
+  color:var(--text-on-dark-muted);max-width:62ch;
+}
+em{font-style:normal;color:var(--green-500)}
+
+.kicker{
+  display:inline-flex;align-items:center;gap:var(--space-3);
+  font:var(--weight-medium) var(--text-xs)/1.4 var(--font-core);
+  letter-spacing:var(--tracking-wider);text-transform:uppercase;
+  color:var(--green-500);
+}
+.kicker::before{
+  content:"";inline-size:26px;block-size:1px;background:currentColor;opacity:.6;
+}
+.kicker--ink{color:var(--text-accent)}
+
+.numeral{
+  font:var(--weight-bold) var(--text-sm)/1 var(--font-core);
+  letter-spacing:var(--tracking-wide);color:var(--green-500);
+}
+
+/* ── Grounds ────────────────────────────────────────────────────────────── */
+.ground-ink{background:var(--teal-900);color:var(--text-on-dark)}
+.ground-dark{background:var(--teal-700);color:var(--text-on-dark)}
+.ground-paper{background:var(--paper-100);color:var(--text-body)}
+.ground-paper h1,.ground-paper h2,.ground-paper h3{color:var(--text-heading)}
+.ground-paper .lede{color:var(--text-muted)}
+
+/* ── Buttons ────────────────────────────────────────────────────────────── */
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:var(--space-3);
+  padding:var(--space-4) var(--space-8);border-radius:var(--radius-pill);
+  font:var(--weight-semibold) var(--text-sm)/1 var(--font-core);
+  letter-spacing:.01em;overflow:hidden;isolation:isolate;
+  transition:var(--transition-hover);will-change:transform;
+}
+.btn > span{position:relative;z-index:2;display:inline-flex;align-items:center;gap:var(--space-3)}
+.btn::before{
+  content:"";position:absolute;inset:0;z-index:1;border-radius:inherit;
+  transform:translateY(101%);transition:transform var(--dur-slow) var(--ease-out);
+}
+.btn:hover::before{transform:translateY(0)}
+.btn:active{transform:scale(var(--press-scale))}
+
+.btn--accent{background:var(--green-500);color:var(--text-on-accent)}
+.btn--accent::before{background:var(--green-700)}
+.btn--outline{border:1px solid var(--border-on-dark-strong);color:var(--text-on-dark)}
+.btn--outline::before{background:var(--green-500)}
+.btn--outline:hover{color:var(--text-on-accent);border-color:var(--green-500)}
+.btn--ink{border:1px solid var(--border-strong);color:var(--text-heading)}
+.btn--ink::before{background:var(--teal-900)}
+.btn--ink:hover{color:var(--paper-100);border-color:var(--teal-900)}
+
+.arrow{display:inline-block;transition:transform var(--dur-base) var(--ease-out)}
+.btn:hover .arrow{transform:translate(3px,-3px)}
+
+/* ── Hairline rules ─────────────────────────────────────────────────────── */
+.rule-on-dark{border-block-start:var(--rule-on-dark)}
+.rule{border-block-start:var(--rule)}
+
+/* A media layer whose <video> is still a stand-in. The still carries the look
+   and the clip only contributes drifting light. When the final films land,
+   delete this one rule and every video plays at full strength. */
+.is-placeholder video{opacity:.32;mix-blend-mode:soft-light}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important;
+  }
+}
