@@ -32,31 +32,31 @@ export const diagnosis = {
       no: '01',
       title: ['Work without', 'a system.'],
       text: 'Every result depends on who happened to be in the room that day.',
-      image: 'assets/symptoms/s1-system.webp',
+      image: 'assets/symptoms/s1-system-v2.webp',
     },
     {
       no: '02',
       title: ['An opportunity', 'arrives, then waits.'],
       text: 'No owner, no date, no next step. It cools until it is gone.',
-      image: 'assets/symptoms/s2-waiting.webp',
+      image: 'assets/symptoms/s2-waiting-v2.webp',
     },
     {
       no: '03',
       title: ['A message that', 'is not yours.'],
       text: 'Marketing says one thing, sales says another, the client hears neither.',
-      image: 'assets/symptoms/s3-message.webp',
+      image: 'assets/symptoms/s3-message-v2.webp',
     },
     {
       no: '04',
       title: ['Decisions made', 'on impression.'],
       text: 'Without a number before, there is nothing for a number after to answer to.',
-      image: 'assets/symptoms/s4-impression.webp',
+      image: 'assets/symptoms/s4-impression-v2.webp',
     },
     {
       no: '05',
       title: ['Growth that', 'cannot be repeated.'],
       text: 'A good quarter is not a system. It is a coincidence you cannot schedule.',
-      image: 'assets/symptoms/s5-repeat.webp',
+      image: 'assets/symptoms/s5-repeat-v2.webp',
     },
   ],
   cta: 'See the cause',
@@ -72,7 +72,7 @@ export const method = {
     {
       no: '01', title: 'We diagnose.',
       text: 'We start from the cause, not from the request. We ask why until we reach it.',
-      image: 'assets/method/m1-diagnose.webp',
+      image: 'assets/method/m1-diagnose-v2.webp',
     },
     {
       no: '02', title: 'We plan.',
@@ -90,7 +90,7 @@ export const method = {
     {
       no: '04', title: 'We measure.',
       text: 'A number before. A number after. What moved decides what we change next.',
-      image: 'assets/method/m4-measure.webp',
+      image: 'assets/method/m4-measure-v2.webp',
     },
   ],
   hint: 'Scroll to deal the cards',
@@ -102,13 +102,13 @@ export const build = {
   /* Deliberately terse: on the dial the photograph does the talking, so each
      division gets a name and a single line and nothing else. */
   units: [
-    { no: '01', name: 'Studies & Strategy',      line: 'The foundation, before anything is built.',  image: 'assets/units/unit-strategy.webp' },
-    { no: '02', name: 'Building the System',     line: 'The system beneath the work.',               image: 'assets/units/unit-system.webp' },
-    { no: '03', name: 'Sales',                   line: 'From opportunity to repeatable revenue.',    image: 'assets/units/unit-sales.webp' },
-    { no: '04', name: 'Marketing & Brand',       line: 'A brand that sounds like the company.',      image: 'assets/units/unit-brand.webp' },
-    { no: '05', name: 'Technology & AI',         line: 'Time back, errors out.',                     image: 'assets/units/unit-tech.webp' },
-    { no: '06', name: 'Supervision & Execution', line: 'The plan turned into reality.',              image: 'assets/units/unit-supervision.webp' },
-    { no: '07', name: 'Personal Branding',       line: 'The founder is the first impression.',       image: 'assets/units/unit-personal.webp' },
+    { no: '01', name: 'Studies & Strategy',      line: 'The foundation, before anything is built.',  image: 'assets/units/unit-strategy-v2.webp' },
+    { no: '02', name: 'Building the System',     line: 'The system beneath the work.',               image: 'assets/units/unit-system-v2.webp' },
+    { no: '03', name: 'Sales',                   line: 'From opportunity to repeatable revenue.',    image: 'assets/units/unit-sales-v2.webp' },
+    { no: '04', name: 'Marketing & Brand',       line: 'A brand that sounds like the company.',      image: 'assets/units/unit-brand-v2.webp' },
+    { no: '05', name: 'Technology & AI',         line: 'Time back, errors out.',                     image: 'assets/units/unit-tech-v2.webp' },
+    { no: '06', name: 'Supervision & Execution', line: 'The plan turned into reality.',              image: 'assets/units/unit-supervision-v2.webp' },
+    { no: '07', name: 'Personal Branding',       line: 'The founder is the first impression.',       image: 'assets/units/unit-personal-v2.webp' },
   ],
 }
 
@@ -119,11 +119,11 @@ export const work = {
   lede: 'One client. One period.',
   items: [
     { no: '01', title: 'We built the foundation.',       text: 'The reality first, then the strategy, then the work systems that outlast us.', image: 'assets/work/w1-foundation.webp' },
-    { no: '02', title: 'Five full hiring stages.',       text: 'From job description to final offer — hiring planned and managed for 15+ roles.', image: 'assets/work/w2-hiring.webp' },
-    { no: '03', title: 'Client management, automated.',  text: 'Systems connected, HubSpot and Zoho set up, follow-up automated to the closed deal.', image: 'assets/work/w3-automation.webp' },
+    { no: '02', title: 'Five full hiring stages.',       text: 'From job description to final offer — hiring planned and managed for 15+ roles.', image: 'assets/work/w2-hiring-v2.webp' },
+    { no: '03', title: 'Client management, automated.',  text: 'Systems connected, HubSpot and Zoho set up, follow-up automated to the closed deal.', image: 'assets/work/w3-automation-v2.webp' },
     { no: '04', title: 'Decisions grounded in numbers.', text: 'Supplier comparisons, spec analysis, financial models, investment documents.', image: 'assets/work/w4-numbers.webp' },
-    { no: '05', title: 'A sales funnel from zero.',      text: 'Channels built and the customer journey designed, first contact to signature.', image: 'assets/work/w5-funnel.webp' },
-    { no: '06', title: 'Identity, campaigns, content.',  text: 'Visual identity, Google and Meta campaigns, monthly content management.', image: 'assets/work/w6-identity.webp' },
+    { no: '05', title: 'A sales funnel from zero.',      text: 'Channels built and the customer journey designed, first contact to signature.', image: 'assets/work/w5-funnel-v2.webp' },
+    { no: '06', title: 'Identity, campaigns, content.',  text: 'Visual identity, Google and Meta campaigns, monthly content management.', image: 'assets/work/w6-identity-v2.webp' },
   ],
   close: 'And all of this — with one company. At one time.',
 }
@@ -147,10 +147,10 @@ export const difference = {
   rows: [
     { title: 'Strategy before activity.', text: 'We solve the right problem before creating more work.', image: 'assets/units/scene-horizon.webp' },
     { title: 'We build what is missing.', text: 'No off-the-shelf menu. The system follows the diagnosis.', image: 'assets/units/scene-blocks.webp' },
-    { title: 'Inside the company, with your team.', text: 'Change works when it becomes part of how people already work.', image: 'assets/units/scene-plane.webp' },
+    { title: 'Inside the company, with your team.', text: 'Change works when it becomes part of how people already work.', image: 'assets/difference/d3-team.webp' },
     { title: 'Every division connected.', text: 'Operations, sales, marketing, and technology move as one system.', image: 'assets/units/scene-network.webp' },
-    { title: 'Execution, not recommendations.', text: 'The work does not stop at a deck. We stay through delivery.', image: 'assets/units/scene-towers.webp' },
-    { title: 'A number before. A number after.', text: 'Growth is visible only when the measure changes.', image: 'assets/units/unit-supervision.webp' },
+    { title: 'Execution, not recommendations.', text: 'The work does not stop at a deck. We stay through delivery.', image: 'assets/difference/d5-delivery.webp' },
+    { title: 'A number before. A number after.', text: 'Growth is visible only when the measure changes.', image: 'assets/difference/d6-measure.webp' },
   ],
 }
 

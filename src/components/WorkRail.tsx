@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { gsap, ScrollTrigger, reduced, clamp } from '../lib/motion'
+import { gsap, ScrollTrigger, reduced, clamp, pointerDrift } from '../lib/motion'
 import { work } from '../content'
 
 const ITEMS = work.items
@@ -8,6 +8,11 @@ const N = ITEMS.length
 /* Same rhythm as the deck in section 02: a rest on every whole step, and the
    move itself in a short window so a scroll cannot stop halfway through it. */
 const HOLD = 0.56
+
+/* The strip does not begin already running. It opens on the first picture
+   pushing in, with the neighbours sliding to their places at either side, so
+   the section arrives rather than cutting straight to its first frame. */
+const LEAD = 0.12
 
 type Geo = {
   cx: number; cy: number     // centre of the strip
@@ -34,6 +39,7 @@ function geometry(vw: number, vh: number): Geo {
 }
 
 const ease = gsap.parseEase('power2.inOut')
+const easeOut = gsap.parseEase('power3.out')
 
 function plateau(p: number) {
   const seg = p * (N - 1)
@@ -51,7 +57,9 @@ export function WorkRail() {
   const root = useRef<HTMLElement>(null)
   const stage = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(0)
+  const [started, setStarted] = useState(false)
   const activeRef = useRef(0)
+  const startedRef = useRef(false)
 
   useLayoutEffect(() => {
     const el = root.current
@@ -66,7 +74,8 @@ export function WorkRail() {
       let geo = geometry(window.innerWidth, window.innerHeight)
 
       const place = (p: number) => {
-        const cursor = plateau(p)
+        const enter = easeOut(clamp(p / LEAD, 0, 1))
+        const cursor = plateau(clamp((p - LEAD) / (1 - LEAD), 0, 1))
 
         thumbs.forEach((thumb, i) => {
           const d = cursor - i          // positive once it has passed to the left
@@ -84,19 +93,23 @@ export function WorkRail() {
           const near = clamp((ad - 0.12) / 0.3, 0, 1)
           const far = 1 - clamp((ad - 1.15) / 0.45, 0, 1)
 
+          // the neighbours slide in from beyond their own side as it opens
+          const slide = (1 - enter) * geo.gap * Math.sign(-d || 1)
+
           thumb.style.transform =
-            'translate3d(' + (x - geo.w / 2).toFixed(1) + 'px, ' +
+            'translate3d(' + (x - geo.w / 2 + slide).toFixed(1) + 'px, ' +
             (geo.cy - geo.h / 2).toFixed(1) + 'px, 0) scale(' + scale.toFixed(4) + ')'
-          thumb.style.opacity = (near * far).toFixed(3)
+          thumb.style.opacity = (near * far * enter).toFixed(3)
           thumb.style.zIndex = String(200 - Math.round(ad * 20))
           thumb.style.setProperty('--merge', (1 - near).toFixed(3))
 
           const frame = frames[i]
           if (frame) {
-            frame.style.opacity = (1 - clamp((ad - 0.1) / 0.55, 0, 1)).toFixed(3)
+            frame.style.opacity = ((1 - clamp((ad - 0.1) / 0.55, 0, 1)) * enter).toFixed(3)
+            // the opening push-in: the first picture settles out of a slow zoom
             frame.style.transform =
               'translate3d(' + (-d * geo.gap * 0.16).toFixed(1) + 'px,0,0) scale(' +
-              (1 + ad * 0.07).toFixed(4) + ')'
+              (1 + ad * 0.07 + (1 - enter) * 0.14).toFixed(4) + ')'
           }
         })
 
@@ -104,6 +117,11 @@ export function WorkRail() {
         if (idx !== activeRef.current) {
           activeRef.current = idx
           setActive(idx)
+        }
+        const on = enter > 0.55
+        if (on !== startedRef.current) {
+          startedRef.current = on
+          setStarted(on)
         }
       }
 
@@ -113,7 +131,7 @@ export function WorkRail() {
         box.style.setProperty('--thumb-h', geo.h + 'px')
       }
 
-      const stops = Array.from({ length: N }, (_, i) => i / (N - 1))
+      const stops = Array.from({ length: N }, (_, i) => LEAD + (1 - LEAD) * (i / (N - 1)))
 
       const st = ScrollTrigger.create({
         trigger: el,
@@ -138,21 +156,18 @@ export function WorkRail() {
       applyGeo()
       place(0)
 
-      gsap.to('.wk__bar span', {
-        scaleX: 1, transformOrigin: 'left', ease: 'none',
-        scrollTrigger: {
-          trigger: el, start: 'top top',
-          end: () => '+=' + window.innerHeight * (N * 1.1), scrub: 0.3,
-        },
-      })
-
-      return () => st.kill()
+return () => st.kill()
     }, el)
 
-    return () => ctx.revert()
+    const media = el.querySelector<HTMLElement>('.wk__full')
+    const stopDrift = media ? pointerDrift(media) : undefined
+
+    return () => { stopDrift?.(); ctx.revert() }
   }, [])
 
-  const state = (i: number) => (i === active ? 'is-on' : i < active ? 'is-past' : 'is-next')
+  /* Nothing is legible until the strip has arrived. */
+  const state = (i: number) =>
+    !started ? 'is-next' : i === active ? 'is-on' : i < active ? 'is-past' : 'is-next'
 
   return (
     <section className="wk" id="work" ref={root}>
@@ -167,7 +182,7 @@ export function WorkRail() {
         </div>
         <div className="wk__scrim" aria-hidden="true" />
 
-        <p className="wk__overline">
+        <p className={'wk__overline ' + (started ? 'is-on' : '')}>
           <span className="numeral">{work.no}</span>
           <i aria-hidden="true" />
           <span className="kicker">{work.kicker}</span>
@@ -197,7 +212,7 @@ export function WorkRail() {
           ))}
         </div>
 
-        <div className="wk__bar" aria-hidden="true"><span /></div>
+        
       </div>
 
       {/* Reduced motion: the strip laid out flat. */}

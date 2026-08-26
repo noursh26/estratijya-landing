@@ -33,6 +33,22 @@ the circular crop are applied in CSS, so no code changes are needed.
 Brand assets — logo, mark, favicon, and the four IBM Plex Sans Arabic weights —
 were supplied by Estratijiya.
 
+## Project-generated replacement photography
+
+The `-v2.webp` files and the files under `public/assets/difference/` were
+generated specifically for this site on 2026-08-26. They use realistic,
+documentary-style scenes composed to remain legible under the existing
+greyscale, teal multiply, centered-copy, circular-crop, and mobile-crop
+treatments.
+
+| Files | Visual intent |
+| --- | --- |
+| `symptoms/s1-system-v2.webp` through `s5-repeat-v2.webp` | Uncoordinated work, an unattended opportunity, conflicting messages, a decision made without measurement, and inconsistent output from a process that cannot be repeated |
+| `method/m1-diagnose-v2.webp`, `method/m4-measure-v2.webp` | Root-cause diagnosis and real-world measurement |
+| `units/unit-*-v2.webp` | A distinct real action for every What we build division, including mobile content production and connected Technology & AI workflows |
+| `work/w2-hiring-v2.webp`, `w3-automation-v2.webp`, `w5-funnel-v2.webp`, `w6-identity-v2.webp` | Hiring stages, automated customer follow-up across devices, a real-world funnel, and social campaign production |
+| `difference/d3-team.webp`, `d5-delivery.webp`, `d6-measure.webp` | Working inside the client team, hands-on delivery, and measurable before/after evidence |
+
 ## Added for the symptom panels and the work rail
 
 | File | Unsplash photo ID | Used for |

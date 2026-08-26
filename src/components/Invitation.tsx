@@ -145,7 +145,7 @@ export function Invitation() {
     : `mailto:${contact.email}`
 
   return (
-    <section className="invite ground-ink" id="invitation" ref={root}>
+    <section className="invite" data-ground="paper" id="invitation" ref={root}>
       <div className="invite__glow" aria-hidden="true" />
 
       <div className="shell invite__grid">

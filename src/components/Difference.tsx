@@ -77,7 +77,7 @@ export function Difference() {
   }, [])
 
   return (
-    <section className="difference ground-paper" id="difference" data-ground="paper" ref={root}>
+    <section className="difference" id="difference" ref={root}>
       <div className="shell difference__head">
         <div className="section-mark" data-reveal>
           <span className="numeral">{difference.no}</span>

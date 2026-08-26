@@ -53,7 +53,7 @@
 .dx__stage{position:relative;block-size:100svh;overflow:hidden;isolation:isolate}
 
 /* ── the photograph ─────────────────────────────────────────────────────── */
-.dx__media{position:absolute;inset:0;z-index:0}
+.dx__media{position:absolute;inset:-2%;z-index:0}
 .dx-shot{
   position:absolute;inset:0;margin:0;overflow:hidden;
   opacity:0;
@@ -171,19 +171,6 @@
 .dx__cta:active{transform:scale(var(--press-scale))}
 
 /* ── position in the deck ───────────────────────────────────────────────── */
-.dx__count{
-  position:absolute;z-index:4;
-  inset-block-end:var(--space-12);inset-inline-end:var(--gutter);
-  font:var(--weight-medium) var(--text-xs)/1 var(--font-core);
-  letter-spacing:var(--tracking-wider);color:var(--text-on-dark-muted);
-  font-variant-numeric:tabular-nums;
-}
-.dx__count b{font-weight:var(--weight-bold);color:var(--green-500)}
-.dx__bar{
-  position:absolute;z-index:4;inset-block-end:0;inset-inline:0;
-  block-size:2px;background:rgba(237,244,241,.12);
-}
-.dx__bar span{display:block;block-size:100%;background:var(--green-500);transform:scaleX(0)}
 
 .dx__fallback{display:none}
 
@@ -228,7 +215,7 @@
 }
 
 /* ── the move being read: the whole section, edges dissolved ────────────── */
-.mv__full{position:absolute;inset:0;z-index:1}
+.mv__full{position:absolute;inset:-2%;z-index:1}
 .mv-frame{
   position:absolute;inset:-3%;margin:0;overflow:hidden;opacity:0;
   will-change:opacity,transform;
@@ -342,11 +329,6 @@
   opacity:calc(1 - var(--merge,0));
 }
 
-.mv__bar{
-  position:absolute;z-index:6;inset-block-end:0;inset-inline:0;
-  block-size:2px;background:rgba(237,244,241,.1);
-}
-.mv__bar span{display:block;block-size:100%;background:var(--green-500);transform:scaleX(0)}
 
 .mv__fallback{display:none}
 
@@ -392,7 +374,7 @@
   --cell:520px;
   /* one column for the dial, one for the copy */
   /* the copy clears the disc's solid core and only ever crosses its feather */
-  --panel-x:calc(22vw + (var(--cell) / 2) * .8 + clamp(20px,2.4vw,44px));
+  --panel-x:max(50vw, calc(22vw + (var(--cell) / 2) * .74));
 }
 .build__halo{
   position:absolute;inset:0;z-index:0;pointer-events:none;
@@ -441,23 +423,17 @@
 .dial-cell.is-static{position:relative;transform:none!important;opacity:1!important;visibility:visible!important}
 
 .build__panel{
-  position:absolute;inset-block-start:50%;transform:translateY(-50%);z-index:6;
-  inset-inline-start:var(--panel-x);
-  inline-size:min(26ch,30vw);display:grid;gap:var(--space-4);
+  position:absolute;inset-block-start:50%;translate:0 -50%;z-index:6;
+  inset-inline-start:var(--panel-x);inset-inline-end:var(--gutter);
+  display:grid;gap:var(--space-5);
 }
-.build__panel-no{
-  display:flex;align-items:center;gap:var(--space-3);
-  font:var(--weight-bold) var(--text-xs)/1 var(--font-core);
-  letter-spacing:var(--tracking-wider);color:var(--green-500);
-}
-.build__panel-no i{inline-size:22px;block-size:1px;background:currentColor;opacity:.5}
 .build__panel-name{
-  font-weight:var(--weight-bold);line-height:1.02;letter-spacing:var(--tracking-tight);
-  font-size:clamp(2rem,4vw,3.4rem);
+  font-weight:var(--weight-bold);line-height:.96;letter-spacing:var(--tracking-display);
+  font-size:clamp(2.6rem,7vw,8rem);
 }
 .build__panel-line{
-  font:var(--weight-medium) clamp(1rem,1.4vw,1.18rem)/1.5 var(--font-core);
-  color:var(--green-500);
+  font:var(--weight-medium) clamp(1.1rem,1.9vw,1.65rem)/1.4 var(--font-core);
+  letter-spacing:var(--tracking-sub);color:var(--green-500);max-inline-size:22ch;
 }
 .build__panel-name,.build__panel-line{animation:panelIn .8s var(--ease-out) both}
 .build__panel-line{animation-delay:.08s}
@@ -466,43 +442,7 @@
   .build__panel-name,.build__panel-line{animation:none}
 }
 
-.dial-rail{
-  position:absolute;inset-block-start:50%;transform:translateY(-50%);
-  inset-inline-end:var(--gutter);z-index:6;
-  display:grid;gap:var(--space-3);padding-inline-start:var(--space-5);
-}
-.dial-rail__track{
-  position:absolute;inset-block:0;inset-inline-start:0;
-  inline-size:1px;background:var(--border-on-dark);
-}
-.dial-rail__fill{display:block;block-size:100%;background:var(--green-500);transform:scaleY(0)}
-.dial-rail button{
-  display:flex;align-items:center;gap:var(--space-3);text-align:start;
-  color:var(--text-on-dark-muted);transition:color var(--dur-base) var(--ease-in-out);
-}
-.dial-rail button em{
-  font:var(--weight-bold) var(--text-2xs)/1 var(--font-core);font-style:normal;
-  letter-spacing:var(--tracking-wide);
-}
-.dial-rail button span{
-  font:var(--weight-medium) var(--text-xs)/1 var(--font-core);
-  opacity:0;transform:translateX(-8px);
-  transition:opacity var(--dur-base) var(--ease-out),transform var(--dur-base) var(--ease-out);
-}
-.dial-rail button:hover,.dial-rail button.is-active{color:var(--green-500)}
-.dial-rail button:hover span,.dial-rail button.is-active span{opacity:1;transform:none}
 
-.build__hint{
-  position:absolute;inset-block-end:var(--space-10);inset-inline-end:var(--gutter);z-index:6;
-  display:flex;align-items:center;gap:var(--space-3);
-  font:var(--weight-medium) var(--text-2xs)/1 var(--font-core);
-  letter-spacing:var(--tracking-wider);text-transform:uppercase;
-  color:var(--text-on-dark-muted);
-}
-.build__hint i{
-  inline-size:1px;block-size:26px;background:var(--green-500);
-  animation:drop 2.2s var(--ease-in-out) infinite;transform-origin:top;
-}
 @keyframes drop{0%,100%{transform:scaleY(.3);opacity:.4}50%{transform:scaleY(1);opacity:1}}
 
 @media (max-width:900px){
@@ -513,13 +453,13 @@
   }
   .build__halo{background:radial-gradient(56% 38% at 50% 36%,rgba(100,216,147,.16) 0%,transparent 70%)}
   .build__panel{
-    inset-inline:var(--gutter);inset-block-start:auto;
-    inset-block-end:var(--space-16);transform:none;inline-size:auto;
+    inset-inline:var(--gutter);inset-block-start:auto;translate:0 0;
+    inset-block-end:var(--space-16);inline-size:auto;
     text-align:center;justify-items:center;gap:var(--space-3);
   }
   .build__panel-no{justify-content:center}
-  .build__panel-name{font-size:clamp(1.6rem,7.6vw,2.3rem)}
-  .build__panel-line{font-size:var(--text-sm)}
+  .build__panel-name{font-size:clamp(2rem,9vw,3rem)}
+  .build__panel-line{font-size:var(--text-base);max-inline-size:none}
   .dial-rail{
     inset-block-start:auto;inset-block-end:var(--space-6);inset-inline:0;
     transform:none;grid-auto-flow:column;justify-content:center;gap:var(--space-4);
@@ -540,7 +480,7 @@
 }
 
 /* ── what is being read ─────────────────────────────────────────────────── */
-.wk__full{position:absolute;inset:0;z-index:1}
+.wk__full{position:absolute;inset:-2%;z-index:1}
 .wk-frame{
   position:absolute;inset:-3%;margin:0;overflow:hidden;opacity:0;
   will-change:opacity,transform;
@@ -636,11 +576,6 @@
   mix-blend-mode:multiply;
 }
 
-.wk__bar{
-  position:absolute;z-index:6;inset-block-end:0;inset-inline:0;
-  block-size:2px;background:rgba(237,244,241,.1);
-}
-.wk__bar span{display:block;block-size:100%;background:var(--green-500);transform:scaleX(0)}
 
 .wk__fallback{display:none}
 
@@ -883,3 +818,194 @@
   .statement__frame{position:absolute;inset:0}
   .statement__copy{position:relative;transform:none;inset-block-start:auto}
 }
+
+/* ══ GROUNDS ═══════════════════════════════════════════════════════════════
+   The design system calls the alternation of paper and teal "the page's
+   rhythm", and the back half had drifted to all-teal.
+
+   Paper is only ever used where there is no photography. The pictures are
+   duotoned dark, and on a near-white ground they read as black shapes floating
+   on a page rather than as light — so the two type-only sections take the
+   paper and everything that carries an image stays on ink.
+
+   Only colour changes here; every composition, mask and motion is untouched. */
+
+/* ── 05 Principles → paper ──────────────────────────────────────────────── */
+.principles{background:var(--paper-100)}
+.principles__watermark{opacity:.07}
+.principles .numeral,.principles .kicker{color:var(--green-700)}
+.principle span{color:rgba(3,27,28,.2)}
+.principle.is-lit span{color:var(--text-heading)}
+.principle em{color:var(--green-700)}
+.values{border-block-color:var(--border-subtle)}
+.values span{color:var(--text-heading)}
+.values i{color:var(--green-600)}
+
+/* ── 06 The difference → ink ────────────────────────────────────────────── */
+.difference{background:var(--teal-900);color:var(--text-on-dark)}
+.difference .numeral,.difference .kicker,.difference .kicker--ink{color:var(--green-500)}
+.difference__title{color:var(--text-on-dark)}
+.difference-row__rule{background:var(--border-on-dark)}
+.difference-row:last-child{border-block-end:var(--rule-on-dark)}
+.difference-row__no,.difference-row__arrow{color:var(--green-500)}
+.difference-row__title{color:var(--text-on-dark)}
+.difference-row__text{color:var(--text-on-dark-muted)}
+.difference-row.is-hot .difference-row__title{color:var(--green-500)}
+
+/* ── 07 The invitation → paper ──────────────────────────────────────────── */
+.invite{background:var(--paper-100)}
+.invite__glow{background:radial-gradient(46% 46% at 74% 50%,rgba(100,216,147,.34) 0%,transparent 70%)}
+.invite .numeral,.invite .kicker{color:var(--green-700)}
+.invite__title{color:var(--text-heading)}
+.invite .lede{color:var(--text-muted)}
+.invite__result{border-block-start-color:var(--border-subtle)}
+.invite__result h3{color:var(--green-700)}
+.invite__result p,.invite__placeholder{color:var(--text-muted)}
+.invite__again{color:var(--text-muted);border-block-end-color:var(--border-strong)}
+.invite__again:hover{color:var(--green-700);border-block-end-color:var(--green-700)}
+.invite__rim{stroke:rgba(3,27,28,.16)}
+.invite__hub{fill:var(--paper-100);stroke:var(--green-600)}
+
+/* ══ CENTRED COMPOSITIONS ══════════════════════════════════════════════════
+   The page was set left-aligned editorial throughout. Centring the type-led
+   sections is the move that reads as an Apple product page: the claim sits on
+   the axis of the picture rather than beside it.
+
+   Section 03 keeps its split — the dial's whole mechanic is a disc whose hub
+   is off the left edge and copy in the right column, and centring it would
+   destroy the thing it is. Everything else comes to the centre.            */
+
+/* ── 01 Hero ────────────────────────────────────────────────────────────── */
+.hero{justify-content:center;align-items:center;padding-block:var(--section-y)}
+.hero__content{text-align:center;display:grid;justify-items:center}
+.hero__cue{inset-inline:0;margin-inline:auto}
+.hero__scrim{
+  background:
+    radial-gradient(74% 60% at 50% 46%,rgba(3,27,28,.14) 0%,rgba(3,27,28,.66) 100%),
+    linear-gradient(180deg,rgba(3,27,28,.44) 0%,rgba(3,27,28,.02) 36%,rgba(3,27,28,.7) 100%);
+}
+
+/* ── 01 Diagnosis · 02 Method · 04 The work ─────────────────────────────── */
+.dx__overline,.mv__overline,.wk__overline{
+  inset-inline:0;justify-content:center;
+}
+.dx__titles,.mv__claims,.wk__claims{
+  inset-inline:var(--gutter);inline-size:auto;text-align:center;
+}
+.dx-title,.mv-claim,.wk-claim{inset-inline:0}
+.dx__foot,.mv__lines,.wk__lines{
+  inset-inline:0;inline-size:auto;justify-items:center;text-align:center;
+}
+.dx__texts{inline-size:min(46ch,88vw);margin-inline:auto}
+.dx-text,.mv-line,.wk-line{inset-inline:0;margin-inline:auto;max-inline-size:min(46ch,88vw)}
+
+/* the scrims stop raking from the left and close in from the frame instead */
+.dx__scrim,.mv__scrim,.wk__scrim{
+  background:
+    radial-gradient(78% 64% at 50% 46%,rgba(3,27,28,.05) 0%,rgba(3,27,28,.58) 100%),
+    linear-gradient(180deg,rgba(3,27,28,.34) 0%,rgba(3,27,28,0) 38%,rgba(3,27,28,.6) 100%);
+}
+
+/* ── the statement interstitial ─────────────────────────────────────────── */
+.statement__copy{justify-items:center;text-align:center}
+.statement__title{justify-items:center}
+.statement__foot{
+  border-inline-start:0;padding-inline-start:0;
+  border-block-start:2px solid var(--green-500);padding-block-start:var(--space-5);
+  max-inline-size:46ch;
+}
+.statement__veil{
+  background:
+    radial-gradient(76% 62% at 50% 48%,rgba(3,27,28,.06) 0%,rgba(3,27,28,.6) 100%),
+    linear-gradient(180deg,rgba(3,27,28,.36) 0%,rgba(3,27,28,0) 40%,rgba(3,27,28,.64) 100%);
+}
+
+/* ── 05 Principles ──────────────────────────────────────────────────────── */
+.principles__inner{display:grid;justify-items:center;text-align:center}
+.principle span{justify-content:center}
+
+/* ── 07 The invitation ──────────────────────────────────────────────────── */
+.invite__grid{grid-template-columns:1fr;justify-items:center;gap:var(--space-16)}
+.invite__copy{justify-items:center;text-align:center;max-inline-size:60ch}
+.invite .lede{margin-inline:auto}
+.invite__result{justify-items:center}
+.invite__result-actions{justify-content:center}
+
+/* ── 08 Closing ─────────────────────────────────────────────────────────── */
+.closing__grid{grid-template-columns:1fr;justify-items:center;text-align:center;gap:var(--space-12)}
+.closing__action{justify-items:center}
+.closing__scrim{
+  background:
+    radial-gradient(74% 62% at 50% 50%,rgba(3,27,28,.16) 0%,rgba(3,27,28,.7) 100%),
+    linear-gradient(180deg,rgba(3,27,28,.48) 0%,rgba(3,27,28,.06) 42%,rgba(3,27,28,.8) 100%);
+}
+
+@media (max-width:900px){
+  .dx__titles,.mv__claims,.wk__claims{inset-inline:var(--gutter)}
+}
+
+
+/* ── 03 the copy arrives with the dial, not before it ───────────────────── */
+.build__overline,.build__panel{
+  opacity:0;transform:translateY(18px);
+  transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);
+}
+.build__overline.is-on,.build__panel.is-on{opacity:1;transform:none}
+.build__panel.is-on{transition-delay:.1s}
+
+/* ── bigger claims across the picture sections ──────────────────────────── */
+.dx-title__line > span{
+  font-size:clamp(2.5rem,7vw,5.8rem);letter-spacing:var(--tracking-display);
+  max-inline-size:min(74vw,1180px);margin-inline:auto;
+}
+.mv-claim > span{
+  font-size:clamp(2.6rem,7.2vw,6rem);letter-spacing:var(--tracking-display);
+  max-inline-size:min(74vw,1180px);margin-inline:auto;
+}
+.wk-claim > span{
+  font-size:clamp(2.1rem,5vw,4rem);letter-spacing:var(--tracking-display);
+  max-inline-size:min(74vw,1080px);margin-inline:auto;
+}
+.dx-text,.mv-line,.wk-line{font-size:clamp(1.02rem,1.5vw,1.25rem)}
+.statement__title{font-size:clamp(2.1rem,6vw,4.8rem);letter-spacing:var(--tracking-display)}
+.principle span{font-size:clamp(1.8rem,5.6vw,4.2rem);letter-spacing:var(--tracking-display)}
+
+@media (max-width:900px){
+  .build__panel-name{font-size:clamp(1.8rem,8vw,2.4rem)}
+}
+
+
+/* ══ NO SEAMS ══════════════════════════════════════════════════════════════
+   Nothing on the page announces where one section stops. The two paper
+   grounds fade up out of the ink and back down into it rather than meeting it
+   at a line, and no section carries a rule on its own edge.               */
+[data-ground="paper"]{position:relative;isolation:isolate}
+[data-ground="paper"]::before,
+[data-ground="paper"]::after{
+  content:"";position:absolute;inset-inline:0;z-index:0;pointer-events:none;
+  block-size:clamp(90px,14vh,220px);
+}
+[data-ground="paper"]::before{
+  inset-block-start:0;
+  background:linear-gradient(180deg,var(--teal-900) 0%,rgba(237,244,241,0) 100%);
+}
+[data-ground="paper"]::after{
+  inset-block-end:0;
+  background:linear-gradient(0deg,var(--teal-900) 0%,rgba(237,244,241,0) 100%);
+}
+/* the copy has to clear the band it fades through. A decorative layer that
+   placed itself keeps its own position and stays under the copy. */
+[data-ground="paper"] > *{position:relative;z-index:1}
+[data-ground="paper"] > .principles__watermark{position:absolute;z-index:0}
+.principles,.invite{padding-block:calc(var(--section-y) + clamp(90px,14vh,220px))}
+
+/* the values band loses its rules — they read as two more lines */
+.values{border-block:0}
+.footer{border-block-start:0}
+
+/* the section label arrives with the strip rather than sitting there first */
+.wk__overline{
+  opacity:0;transform:translateY(16px);
+  transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);
+}
+.wk__overline.is-on{opacity:1;transform:none}

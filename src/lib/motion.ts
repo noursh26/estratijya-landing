@@ -113,6 +113,28 @@ export function magnetic(el: HTMLElement, strength = 0.34) {
   }
 }
 
+/** A picture that answers the pointer. A few pixels of drift against the type
+ *  sitting on it — enough that the frame feels held rather than printed, far
+ *  short of anything that reads as a toy. Applies to the media wrapper, never
+ *  to a frame that already carries a scroll-driven transform. */
+export function pointerDrift(el: HTMLElement, amount = 14) {
+  if (!fine() || reduced()) return () => {}
+  const xTo = gsap.quickTo(el, 'x', { duration: 1.2, ease: 'power3' })
+  const yTo = gsap.quickTo(el, 'y', { duration: 1.2, ease: 'power3' })
+
+  let visible = true
+  const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting })
+  io.observe(el)
+
+  const move = (e: PointerEvent) => {
+    if (!visible) return
+    xTo((e.clientX / window.innerWidth - 0.5) * -amount)
+    yTo((e.clientY / window.innerHeight - 0.5) * -amount * 0.6)
+  }
+  window.addEventListener('pointermove', move, { passive: true })
+  return () => { window.removeEventListener('pointermove', move); io.disconnect() }
+}
+
 /** Scroll-velocity readout — drives marquee speed and skew across the page. */
 export function velocityTracker() {
   const state = { v: 0 }

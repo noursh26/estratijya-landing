@@ -81,14 +81,21 @@
 
   --leading-tight:1.08; --leading-snug:1.22; --leading-normal:1.5; --leading-relaxed:1.75;
   --tracking-wide:.08em; --tracking-wider:.18em; --tracking-tight:-.02em; --tracking-none:0;
+  /* Optical sizing: the larger the type, the tighter it must be set, or a
+     display line reads loose next to the same face at body size. */
+  --tracking-display:-.038em;   /* 60px and up   */
+  --tracking-head:-.028em;      /* 30–60px       */
+  --tracking-sub:-.015em;       /* 20–30px       */
 
   /* ── Space ────────────────────────────────────────────────────────────── */
   --space-1:4px;  --space-2:8px;  --space-3:12px; --space-4:16px; --space-5:20px;
   --space-6:24px; --space-8:32px; --space-10:40px;--space-12:48px;--space-16:64px;
   --space-20:80px;--space-24:96px;--space-32:128px;--space-40:160px;
 
-  --section-y:var(--space-32);
-  --section-y-tight:var(--space-20);
+  /* One vertical rhythm for the whole page, so no two sections breathe at a
+     different rate. */
+  --section-y:clamp(6rem,11vh,10rem);
+  --section-y-tight:clamp(4rem,7vh,6rem);
   --gutter:var(--space-6);
   --gutter-lg:var(--space-16);
   --container:1240px;

@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { gsap, ScrollTrigger, reduced, clamp } from '../lib/motion'
+import { gsap, ScrollTrigger, reduced, clamp, pointerDrift } from '../lib/motion'
 import { scrollTo } from '../lib/useLenis'
 import { diagnosis } from '../content'
 
@@ -46,18 +46,13 @@ export function Diagnosis() {
         },
       })
 
-      gsap.to('.dx__bar span', {
-        scaleX: 1, transformOrigin: 'left', ease: 'none',
-        scrollTrigger: {
-          trigger: el, start: 'top top',
-          end: () => `+=${window.innerHeight * N}`, scrub: 0.3,
-        },
-      })
-
-      return () => st.kill()
+return () => st.kill()
     }, el)
 
-    return () => ctx.revert()
+    const media = el.querySelector<HTMLElement>('.dx__media')
+    const stopDrift = media ? pointerDrift(media) : undefined
+
+    return () => { stopDrift?.(); ctx.revert() }
   }, [])
 
   /** past / present / future — drives every layer with one class. */
@@ -108,11 +103,7 @@ export function Diagnosis() {
             {diagnosis.cta} <i className="arrow" aria-hidden="true">→</i>
           </button>
         </div>
-
-        <p className="dx__count" aria-hidden="true">
-          <b>{PANELS[active].no}</b> / {String(N).padStart(2, '0')}
-        </p>
-        <div className="dx__bar" aria-hidden="true"><span /></div>
+        
       </div>
 
       {/* Reduced motion: the same panels as a plain stack, swapped in CSS. */}

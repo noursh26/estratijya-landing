@@ -47,7 +47,7 @@ export function Principles() {
   const values = [...principles.values, ...principles.values, ...principles.values]
 
   return (
-    <section className="principles ground-ink" id="principles" ref={root}>
+    <section className="principles" data-ground="paper" id="principles" ref={root}>
       <img className="principles__watermark" src="assets/brand/icon-only-green.png" alt="" aria-hidden="true" />
 
       <div className="shell principles__inner">
@@ -57,10 +57,9 @@ export function Principles() {
         </div>
 
         <div className="principles__lines">
-          {principles.lines.map((line, i) => (
+          {principles.lines.map((line) => (
             <p className="principle" key={line}>
               <span>
-                <em aria-hidden="true">{String(i + 1).padStart(2, '0')}</em>
                 {line}
               </span>
             </p>

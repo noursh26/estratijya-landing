@@ -43,7 +43,7 @@ export function Cursor() {
         r.dataset.state = 'idle'
       }
       // Invert over paper grounds so the cursor never disappears.
-      const light = t.closest('.ground-paper, .is-light')
+      const light = t.closest('[data-ground="paper"]')
       r.classList.toggle('is-inverted', Boolean(light))
       d.classList.toggle('is-inverted', Boolean(light))
     }

@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { gsap, ScrollTrigger, reduced, clamp } from '../lib/motion'
+import { gsap, ScrollTrigger, reduced, clamp, pointerDrift } from '../lib/motion'
 import { method } from '../content'
 
 const STEPS = method.steps
@@ -37,14 +37,14 @@ function geometry(vw: number, vh: number): Geo {
   if (mobile) {
     return {
       hx: vw * 0.5, hy: vh * 0.5, hs: 1.5,
-      sx: vw * 1.02, sy: vh * 0.62,
-      w, h, ss: 0.62, dx: 14, dy: 19, off: vw * 1.1, mobile,
+      sx: vw * 1.04, sy: vh * 0.76,
+      w, h, ss: 0.5, dx: 13, dy: 17, off: vw * 1.1, mobile,
     }
   }
   return {
     hx: vw * 0.4, hy: vh * 0.5, hs: 1.7,
-    sx: vw * 0.78, sy: vh * 0.6,
-    w, h, ss: 0.5, dx: 26, dy: 32, off: vw * 0.9, mobile,
+    sx: vw * 0.82, sy: vh * 0.72,
+    w, h, ss: 0.38, dx: 22, dy: 27, off: vw * 0.9, mobile,
   }
 }
 
@@ -183,18 +183,13 @@ export function Method() {
       applyGeo()
       place(0)
 
-      gsap.to('.mv__bar span', {
-        scaleX: 1, transformOrigin: 'left', ease: 'none',
-        scrollTrigger: {
-          trigger: el, start: 'top top',
-          end: () => '+=' + window.innerHeight * (N * 1.25), scrub: 0.3,
-        },
-      })
-
-      return () => st.kill()
+return () => st.kill()
     }, el)
 
-    return () => ctx.revert()
+    const media = el.querySelector<HTMLElement>('.mv__full')
+    const stopDrift = media ? pointerDrift(media) : undefined
+
+    return () => { stopDrift?.(); ctx.revert() }
   }, [])
 
   /* Before the deck has arrived nothing is showing at all. */
@@ -259,7 +254,7 @@ export function Method() {
           ))}
         </div>
 
-        <div className="mv__bar" aria-hidden="true"><span /></div>
+        
       </div>
 
       {/* Reduced motion: the deck laid out flat. */}

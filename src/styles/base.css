@@ -32,17 +32,20 @@ ul,ol{margin:0;padding:0;list-style:none}
 
 /* ── Type roles ─────────────────────────────────────────────────────────── */
 .display{
-  font-weight:var(--weight-bold);line-height:var(--leading-tight);
-  letter-spacing:var(--tracking-tight);
-  font-size:clamp(2.4rem,7.4vw,5.6rem);
+  font-weight:var(--weight-bold);line-height:1.04;
+  letter-spacing:var(--tracking-display);
+  font-size:clamp(2.6rem,7.6vw,6rem);
 }
-.display--xl{font-size:clamp(2.9rem,10.2vw,8.4rem)}
+.display--xl{font-size:clamp(3rem,10.4vw,9rem);line-height:.98}
 .h2{
-  font-weight:var(--weight-bold);line-height:var(--leading-snug);
-  letter-spacing:var(--tracking-tight);
-  font-size:clamp(1.75rem,4vw,3.1rem);
+  font-weight:var(--weight-bold);line-height:1.08;
+  letter-spacing:var(--tracking-head);
+  font-size:clamp(1.9rem,4.2vw,3.4rem);
 }
-.h3{font:var(--weight-semibold) var(--text-xl)/var(--leading-snug) var(--font-core)}
+.h3{
+  font:var(--weight-semibold) var(--text-xl)/var(--leading-snug) var(--font-core);
+  letter-spacing:var(--tracking-sub);
+}
 .lede{
   font-size:clamp(1rem,1.5vw,1.22rem);line-height:var(--leading-relaxed);
   color:var(--text-on-dark-muted);max-width:62ch;
