@@ -48,7 +48,7 @@ export function Statement() {
       <div className="statement__stage">
         <div className="statement__frame">
           <div className="statement__media is-placeholder">
-            <img src="assets/units/scene-plane.jpg" alt="" />
+            <img src="assets/units/scene-plane.webp" alt="" />
             <video autoPlay muted loop playsInline preload="auto">
               <source src="assets/video/02-statement.mp4" type="video/mp4" />
             </video>
