@@ -11,6 +11,19 @@ const STATIC = [
   'assets/brand/icon-only-green.png',
   'assets/generated/hero-path.webp',
   'assets/generated/closing-path.webp',
+]
+
+/* The films are the only assets that do not gate the door.
+
+   Every one of them sits behind a still of the same shot at 32% opacity under
+   a heavy scrim, so a film that arrives a second late fades up rather than
+   pops — nothing on the page is missing while it loads. They are also 18 of
+   the site's 26 MB, and holding the door for them cost 75s on a live GitHub
+   Pages load against 8s for everything else. They start downloading with the
+   rest and simply are not waited on.
+
+   To gate on them too, move these three back into STATIC above. */
+const DEFERRED_PATHS = [
   'assets/video/01-hero.mp4',
   'assets/video/02-statement.mp4',
   'assets/video/03-closing.mp4',
@@ -24,8 +37,13 @@ const fromContent = [
   ...difference.rows.map((r) => r.image),
 ]
 
-export const MANIFEST: string[] = Array.from(new Set([...STATIC, ...fromContent]))
-  .map((path) => new URL(path, document.baseURI).href)
+const resolve = (path: string) => new URL(path, document.baseURI).href
+
+/** Held at the door. */
+export const MANIFEST: string[] = Array.from(new Set([...STATIC, ...fromContent])).map(resolve)
+
+/** Fetched alongside, but never waited on. */
+export const DEFERRED: string[] = DEFERRED_PATHS.map(resolve)
 
 /** Rough size per type, corrected from content-length as each response lands.
  *  Only used so the bar is weighted sensibly before the headers arrive. */

@@ -1,4 +1,4 @@
-import { MANIFEST, estimateBytes, FONT_FACES } from './assets'
+import { MANIFEST, DEFERRED, estimateBytes, FONT_FACES } from './assets'
 
 /* The gate. Nothing of the page is shown until every file in the manifest has
    been pulled down in full and the four type weights have loaded.
@@ -49,6 +49,11 @@ async function pull(entry: Entry, tick: () => void, signal: AbortSignal) {
 /** Download everything, reporting a real 0 → 1. Resolves when the page is
  *  genuinely ready to be shown. */
 export async function preloadAll(onProgress: Progress): Promise<void> {
+  // The films start now and are left to finish on their own time.
+  for (const url of DEFERRED) {
+    fetch(url, { cache: 'force-cache' }).catch(() => {})
+  }
+
   const entries: Entry[] = MANIFEST.map((url) => ({
     url, size: estimateBytes(url), loaded: 0, done: false,
   }))
