@@ -93,7 +93,7 @@ export function Difference() {
             <span className="difference-row__no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <h3 className="difference-row__title">{row.title}</h3>
             <p className="difference-row__text">{row.text}</p>
-            <img className="difference-row__thumb" src={row.image} alt="" loading="lazy" decoding="async" />
+            <img className="difference-row__thumb" src={row.image} alt="" decoding="async" />
             <i className="difference-row__arrow" aria-hidden="true">→</i>
           </article>
         ))}
@@ -102,7 +102,7 @@ export function Difference() {
       <div className="preview" ref={preview} aria-hidden="true">
         {difference.rows.map((row) => (
           <div className="preview__frame" key={row.image + row.title}>
-            <img src={row.image} alt="" loading="lazy" decoding="async" />
+            <img src={row.image} alt="" decoding="async" />
             <span />
           </div>
         ))}

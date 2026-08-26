@@ -48,7 +48,7 @@ export function Principles() {
 
   return (
     <section className="principles ground-ink" id="principles" ref={root}>
-      <img className="principles__watermark" src="/assets/brand/icon-only-green.png" alt="" aria-hidden="true" />
+      <img className="principles__watermark" src="assets/brand/icon-only-green.png" alt="" aria-hidden="true" />
 
       <div className="shell principles__inner">
         <div className="section-mark" data-reveal>

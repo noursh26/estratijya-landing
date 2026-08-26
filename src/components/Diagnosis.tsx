@@ -69,7 +69,7 @@ export function Diagnosis() {
         <div className="dx__media" aria-hidden="true">
           {PANELS.map((p, i) => (
             <figure className={`dx-shot ${state(i)}`} key={p.no}>
-              <img src={p.image} alt="" loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
+              <img src={p.image} alt="" decoding="async" />
             </figure>
           ))}
         </div>
@@ -119,7 +119,7 @@ export function Diagnosis() {
       <div className="dx__fallback">
         {PANELS.map((p) => (
           <article key={p.no}>
-            <img src={p.image} alt="" loading="lazy" decoding="async" />
+            <img src={p.image} alt="" decoding="async" />
             <div>
               <span className="numeral">{p.no}</span>
               <h3>{p.title.join(' ')}</h3>

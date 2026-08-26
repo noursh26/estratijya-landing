@@ -50,7 +50,7 @@ export function Hero({ start }: { start: boolean }) {
     <section className="hero" id="top" ref={root}>
       <div className="hero__media is-placeholder" aria-hidden="true">
         <img src="assets/generated/hero-path.webp" alt="" />
-        <video autoPlay muted loop playsInline preload="metadata">
+        <video autoPlay muted loop playsInline preload="auto">
           <source src="assets/video/01-hero.mp4" type="video/mp4" />
         </video>
       </div>

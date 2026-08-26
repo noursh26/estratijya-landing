@@ -29,14 +29,14 @@ pnpm preview
 | # | Section | The motion |
 | --- | --- | --- |
 | — | Header | A wordmark and one word. No ground, no blur — it inverts to ink over paper |
-| — | Preloader | Counted load, then a six-column curtain lifting in sequence |
+| — | Preloader | A real byte counter. The page opens only once every asset is downloaded and decoded |
 | 01 | Hero | Three lines and a film. Masked reveal, pointer-reactive tick field, scrubbed sink |
 | — | Marquee | Velocity-reactive band — speeds and skews with the scroll |
 | 01 | Diagnosis | Five full-screen symptom panels; the photograph and the claim swap on scroll |
 | 02 | Method | A deck. The stack waits on the right; each move is dealt left and blooms to full bleed |
 | — | Statement | A framed clip expanding to full bleed while the claim assembles |
 | 03 | What we build | The dial — seven divisions on an invisible wheel, hub off-screen left |
-| 04 | The work | Vertical scroll drives a horizontal rail of picture-led cards |
+| 04 | The work | A horizontal strip: what you read fills the section, its neighbours peek at either edge |
 | 05 | Principles | Line-by-line lighting, counter-running values band |
 | 06 | Difference | Hairline rows; the hovered row floats its photograph beside the cursor |
 | 07 | Invitation | A draggable dial of working sessions, with inertia and detents |

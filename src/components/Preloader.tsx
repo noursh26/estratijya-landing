@@ -1,44 +1,44 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { gsap, reduced } from '../lib/motion'
+import { preloadAll } from '../lib/preload'
 
-/** Opening sequence: a counted load, the mark drawing itself, then a staggered
- *  column curtain lifting away. Reference: fantasy.co / refokus openings. */
+/** The door. It reports a real percentage of bytes pulled down and only opens
+ *  once every asset is in the cache and the type has loaded — so nothing on the
+ *  page ever appears mid-download. Reference: fantasy.co / refokus openings. */
 export function Preloader({ onDone }: { onDone: () => void }) {
   const root = useRef<HTMLDivElement>(null)
   const count = useRef<HTMLSpanElement>(null)
   const bar = useRef<HTMLSpanElement>(null)
+  const shown = useRef(0)      // what the counter is currently displaying
+  const target = useRef(0)     // what the download says it should be
+  const finished = useRef(false)
 
+  // Scroll stays locked while the door is shut.
   useLayoutEffect(() => {
+    document.body.classList.add('is-loading')
+    return () => document.body.classList.remove('is-loading')
+  }, [])
+
+  useEffect(() => {
     const el = root.current
     if (!el) return
+    let raf = 0
+    let ctx: gsap.Context | undefined
 
-    if (reduced()) {
-      gsap.set(el, { autoAlpha: 0, pointerEvents: 'none' })
-      onDone()
-      return
-    }
-
-    const ctx = gsap.context(() => {
-      const value = { n: 0 }
-      const tl = gsap.timeline({
+    const open = () => {
+      document.body.classList.remove('is-loading')
+      if (reduced()) {
+        gsap.set(el, { autoAlpha: 0, pointerEvents: 'none' })
+        onDone()
+        return
+      }
+      gsap.timeline({
         onComplete: () => {
           onDone()
           gsap.set(el, { pointerEvents: 'none', visibility: 'hidden' })
         },
       })
-
-      tl.from('.preloader__mark', { scale: 0.72, autoAlpha: 0, duration: 0.9, ease: 'brand' })
-        .from('.preloader__word span', { yPercent: 115, duration: 0.8, ease: 'brand', stagger: 0.03 }, 0.15)
-        .to(value, {
-          n: 100,
-          duration: 1.85,
-          ease: 'power2.inOut',
-          onUpdate: () => {
-            if (count.current) count.current.textContent = String(Math.round(value.n)).padStart(3, '0')
-          },
-        }, 0.1)
-        .to(bar.current, { scaleX: 1, duration: 1.85, ease: 'power2.inOut' }, 0.1)
-        .to('.preloader__inner', { autoAlpha: 0, duration: 0.4, ease: 'brandInOut' }, '-=0.15')
+        .to('.preloader__inner', { autoAlpha: 0, duration: 0.4, ease: 'brandInOut' })
         .to('.preloader__col', {
           scaleY: 0,
           transformOrigin: 'top',
@@ -46,9 +46,48 @@ export function Preloader({ onDone }: { onDone: () => void }) {
           ease: 'brand',
           stagger: { each: 0.07, from: 'start' },
         }, '-=0.1')
+    }
+
+    if (reduced()) {
+      // no counted sequence, but still wait for the assets
+      preloadAll(() => {}).then(open)
+      return
+    }
+
+    ctx = gsap.context(() => {
+      gsap.from('.preloader__mark', { scale: 0.72, autoAlpha: 0, duration: 0.9, ease: 'brand' })
+      gsap.from('.preloader__word span', {
+        yPercent: 115, duration: 0.8, ease: 'brand', stagger: 0.03, delay: 0.15,
+      })
     }, el)
 
-    return () => ctx.revert()
+    /* The counter chases the real figure rather than jumping to it, so a burst
+       of cached files still reads as a count rather than a flicker. */
+    const chase = () => {
+      raf = requestAnimationFrame(chase)
+      shown.current += (target.current - shown.current) * 0.08
+      if (target.current - shown.current < 0.0015) shown.current = target.current
+
+      const pct = shown.current * 100
+      if (count.current) count.current.textContent = String(Math.round(pct)).padStart(3, '0')
+      if (bar.current) bar.current.style.transform = `scaleX(${shown.current.toFixed(4)})`
+
+      if (finished.current && shown.current > 0.999) {
+        cancelAnimationFrame(raf)
+        open()
+      }
+    }
+    raf = requestAnimationFrame(chase)
+
+    preloadAll((f) => { target.current = f }).then(() => {
+      target.current = 1
+      finished.current = true
+    })
+
+    return () => {
+      cancelAnimationFrame(raf)
+      ctx?.revert()
+    }
   }, [onDone])
 
   return (
@@ -60,7 +99,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
         <img className="preloader__mark" src="assets/brand/icon-only-green.png" alt="" />
         <p className="preloader__word">
           {'Strategy becomes movement.'.split('').map((c, i) => (
-            <span key={i}>{c === ' ' ? ' ' : c}</span>
+            <span key={i}>{c === ' ' ? ' ' : c}</span>
           ))}
         </p>
         <div className="preloader__meter">

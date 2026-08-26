@@ -46,7 +46,7 @@ were supplied by Estratijiya.
 | `work/w3-automation.jpg` | `photo-1518770660439-4636190af475` | 03 Client management, automated |
 | `work/w4-numbers.jpg` | `photo-1460925895917-afdab827c52f` | 04 Decisions grounded in numbers |
 | `work/w5-funnel.jpg` | `photo-1524230572899-a752b3835840` | 05 A sales funnel from zero |
-| `work/w6-identity.jpg` | `photo-1493397212122-2b85dda8106b` | 06 Identity, campaigns, content |
+| `work/w6-identity.jpg` | `photo-1487958449943-2429e8be8625` | 06 Identity, campaigns, content |
 
 ## Added for the method deck
 

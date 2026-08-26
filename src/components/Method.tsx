@@ -211,7 +211,7 @@ export function Method() {
               <img
                 src={step.image}
                 alt=""
-                loading="lazy"
+               
                 decoding="async"
                 style={step.crop as React.CSSProperties | undefined}
               />
@@ -248,7 +248,7 @@ export function Method() {
                 <img
                   src={step.image}
                   alt=""
-                  loading="lazy"
+                 
                   decoding="async"
                   style={step.crop as React.CSSProperties | undefined}
                 />
@@ -266,7 +266,7 @@ export function Method() {
       <div className="mv__fallback">
         {STEPS.map((step) => (
           <article key={step.no}>
-            <img src={step.image} alt="" loading="lazy" decoding="async" />
+            <img src={step.image} alt="" decoding="async" />
             <div>
               <h3>{step.title}</h3>
               <p>{step.text}</p>

@@ -192,7 +192,7 @@ export function BuildDial() {
           {UNITS.map((u, i) => (
             <div className={`dial-cell ${i === active ? 'is-active' : ''}`} key={u.no}>
               <div className="dial-cell__photo">
-                <img src={u.image} alt="" loading="lazy" decoding="async" />
+                <img src={u.image} alt="" decoding="async" />
                 <span className="dial-cell__tint" />
               </div>
             </div>
@@ -228,7 +228,7 @@ export function BuildDial() {
       <ul className="build__fallback shell">
         {UNITS.map((u) => (
           <li key={u.no}>
-            <img src={u.image} alt="" loading="lazy" decoding="async" />
+            <img src={u.image} alt="" decoding="async" />
             <div>
               <span className="numeral">{u.no}</span>
               <h3 className="h3">{u.name}</h3>

@@ -44,7 +44,7 @@ export function Closing() {
       <section className="closing" id="contact" ref={root}>
         <div className="closing__media is-placeholder" aria-hidden="true">
           <img src="assets/generated/closing-path.webp" alt="" />
-          <video autoPlay muted loop playsInline preload="none">
+          <video autoPlay muted loop playsInline preload="auto">
             <source src="assets/video/03-closing.mp4" type="video/mp4" />
           </video>
         </div>
