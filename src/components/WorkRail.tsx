@@ -80,8 +80,13 @@ export function WorkRail() {
         thumbs.forEach((thumb, i) => {
           const d = cursor - i          // positive once it has passed to the left
           const ad = Math.abs(d)
+          const frame = frames[i]
 
-          if (ad > 1.9) { thumb.style.visibility = 'hidden'; return }
+          if (ad > 1.9) {
+            thumb.style.visibility = 'hidden'
+            if (frame) frame.style.opacity = '0'
+            return
+          }
           thumb.style.visibility = 'visible'
 
           // grows only across the last step into the centre
@@ -103,7 +108,6 @@ export function WorkRail() {
           thumb.style.zIndex = String(200 - Math.round(ad * 20))
           thumb.style.setProperty('--merge', (1 - near).toFixed(3))
 
-          const frame = frames[i]
           if (frame) {
             frame.style.opacity = ((1 - clamp((ad - 0.1) / 0.55, 0, 1)) * enter).toFixed(3)
             // the opening push-in: the first picture settles out of a slow zoom
