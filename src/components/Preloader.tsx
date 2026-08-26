@@ -57,7 +57,7 @@ export function Preloader({ onDone }: { onDone: () => void }) {
         {Array.from({ length: 6 }, (_, i) => <span className="preloader__col" key={i} />)}
       </div>
       <div className="preloader__inner">
-        <img className="preloader__mark" src="/assets/brand/icon-only-green.png" alt="" />
+        <img className="preloader__mark" src="assets/brand/icon-only-green.png" alt="" />
         <p className="preloader__word">
           {'Strategy becomes movement.'.split('').map((c, i) => (
             <span key={i}>{c === ' ' ? ' ' : c}</span>

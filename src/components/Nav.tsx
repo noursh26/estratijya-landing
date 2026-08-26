@@ -78,8 +78,8 @@ export function Nav() {
     <>
       <header className="nav" ref={header}>
         <a className="nav__logo" href="#top" onClick={go('top')} aria-label="Estratijiya — home">
-          <img className="nav__logo-light" src="/assets/brand/logo-white.png" alt="Estratijiya" />
-          <img className="nav__logo-ink" src="/assets/brand/logo-dark.png" alt="" aria-hidden="true" />
+          <img className="nav__logo-light" src="assets/brand/logo-white.png" alt="Estratijiya" />
+          <img className="nav__logo-ink" src="assets/brand/logo-dark.png" alt="" aria-hidden="true" />
         </a>
 
         <button

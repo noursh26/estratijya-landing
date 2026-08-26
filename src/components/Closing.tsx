@@ -43,9 +43,9 @@ export function Closing() {
     <>
       <section className="closing" id="contact" ref={root}>
         <div className="closing__media is-placeholder" aria-hidden="true">
-          <img src="/assets/generated/closing-path.webp" alt="" />
+          <img src="assets/generated/closing-path.webp" alt="" />
           <video autoPlay muted loop playsInline preload="none">
-            <source src="/assets/video/03-closing.mp4" type="video/mp4" />
+            <source src="assets/video/03-closing.mp4" type="video/mp4" />
           </video>
         </div>
         <div className="closing__scrim" aria-hidden="true" />
@@ -73,7 +73,7 @@ export function Closing() {
 
       <footer className="footer">
         <div className="shell footer__top">
-          <img className="footer__mark" src="/assets/brand/logo-white.png" alt="Estratijiya" ref={mark} />
+          <img className="footer__mark" src="assets/brand/logo-white.png" alt="Estratijiya" ref={mark} />
           <p className="footer__line">Your growth.<br />Our system.</p>
         </div>
 
