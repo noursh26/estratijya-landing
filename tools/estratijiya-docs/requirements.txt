@@ -1,0 +1,3 @@
+weasyprint
+pillow
+num2words

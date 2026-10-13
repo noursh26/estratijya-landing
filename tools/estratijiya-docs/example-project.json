@@ -1,0 +1,65 @@
+{
+  "project_no": "EST-IT-001",
+  "quote_no": "EST-001",
+  "date": "13 Oct 2026",
+  "valid_until": "28 Oct 2026",
+  "prepared_by": "Nour",
+  "client": {
+    "name": {"ar": "شركة المثال للتجارة", "en": "Example Trading LLC"},
+    "company": {"ar": "شركة المثال للتجارة", "en": "Example Trading LLC"},
+    "country": {"ar": "الإمارات العربية المتحدة", "en": "United Arab Emirates"},
+    "email": "ops@example.com",
+    "phone": "+971 50 000 0000",
+    "contact": {"ar": "أحمد", "en": "Ahmad"}
+  },
+  "project": {
+    "name": {"ar": "تطبيق طلبات وتوصيل", "en": "Ordering & Delivery App"},
+    "type": {"ar": "تطبيق موبايل + لوحة تحكم", "en": "Mobile app + dashboard"},
+    "complexity": {"ar": "متوسط", "en": "Medium"},
+    "pm": "Nour",
+    "meeting_date": "12 Oct 2026",
+    "summary": {"ar": "تطبيق لعملاء المتجر يطلبون منه ويتتبعون التوصيل، مع لوحة تحكم لإدارة الطلبات والسائقين.", "en": "An app for the store's customers to order and track delivery, with a dashboard to manage orders and drivers."}
+  },
+  "features": [
+    {"name": {"ar": "تسجيل دخول برقم الهاتف", "en": "Phone-number login"}, "phase": "1", "complexity": {"ar": "بسيط", "en": "Simple"}, "hours": 16},
+    {"name": {"ar": "كتالوج المنتجات والسلة", "en": "Product catalogue and cart"}, "phase": "1", "complexity": {"ar": "متوسط", "en": "Medium"}, "hours": 40},
+    {"name": {"ar": "الدفع الإلكتروني", "en": "Online payment"}, "phase": "1", "complexity": {"ar": "متوسط", "en": "Medium"}, "hours": 24, "notes": {"ar": "بوابة واحدة", "en": "One gateway"}},
+    {"name": {"ar": "تتبع السائق مباشرة", "en": "Live driver tracking"}, "phase": "1", "complexity": {"ar": "معقّد", "en": "Complex"}, "hours": 48},
+    {"name": {"ar": "لوحة تحكم الطلبات", "en": "Orders dashboard"}, "phase": "1", "complexity": {"ar": "متوسط", "en": "Medium"}, "hours": 56},
+    {"name": {"ar": "برنامج نقاط الولاء", "en": "Loyalty points"}, "phase": {"ar": "لاحقاً", "en": "Later"}, "complexity": {"ar": "متوسط", "en": "Medium"}, "hours": 0}
+  ],
+  "stack": [
+    {"layer": "Backend", "choice": "Next.js", "reason": {"ar": "الافتراضي", "en": "Default"}},
+    {"layer": {"ar": "الويب", "en": "Web"}, "choice": "Next.js", "reason": {"ar": "لوحة التحكم", "en": "Admin dashboard"}},
+    {"layer": {"ar": "الموبايل", "en": "Mobile"}, "choice": "Flutter", "reason": {"ar": "أندرويد + iOS بكود واحد", "en": "Android + iOS from one codebase"}},
+    {"layer": {"ar": "قاعدة البيانات", "en": "Database"}, "choice": "PostgreSQL"},
+    {"layer": {"ar": "الاستضافة", "en": "Hosting"}, "choice": "VPS + Docker", "reason": {"ar": "تتبع مباشر", "en": "Real-time tracking"}}
+  ],
+  "plan": [
+    {"phase": {"ar": "تحليل + تصميم UI/UX", "en": "Analysis + UI/UX"}, "owner": "Design", "internal_days": 5, "client_days": 7},
+    {"phase": {"ar": "Backend + قاعدة البيانات", "en": "Backend + database"}, "owner": "Backend", "internal_days": 8, "client_days": 10},
+    {"phase": {"ar": "لوحة التحكم", "en": "Admin dashboard"}, "owner": "Web", "internal_days": 6, "client_days": 8},
+    {"phase": {"ar": "تطبيق الموبايل", "en": "Mobile app"}, "owner": "Mobile", "internal_days": 8, "client_days": 10},
+    {"phase": {"ar": "اختبار + تسليم", "en": "Testing + handover"}, "owner": "QA", "internal_days": 3, "client_days": 5}
+  ],
+  "pricing": {"hours": 184, "rate": 150, "dev_cost": 27600, "external": 2400, "margin_pct": 25, "before_discount": 37500, "max_discount": 3750, "final": 35000},
+  "risks": [
+    {"ar": "تأخر حساب بوابة الدفع من طرف العميل.", "en": "Payment-gateway account approval on the client side may be slow."},
+    {"ar": "نشر iOS يحتاج حساب Apple Developer باسم العميل.", "en": "iOS publishing needs an Apple Developer account in the client's name."}
+  ],
+  "decision": 0,
+  "quotation": {
+    "overview": {"ar": "تطبيق موبايل لعملائك يطلبون منه ويتابعون التوصيل لحظة بلحظة، مع لوحة تحكم لإدارة الطلبات والسائقين.", "en": "A mobile app your customers order from and track delivery in real time, with a dashboard to run orders and drivers."},
+    "services": [
+      {"name": {"ar": "تطبيق موبايل — أندرويد و iOS", "en": "Mobile app — Android & iOS"}, "rate": 20000, "discount_pct": 10,
+       "scope": [{"ar": "تسجيل دخول برقم الهاتف", "en": "Phone-number login"}, {"ar": "كتالوج المنتجات والسلة والدفع الإلكتروني", "en": "Catalogue, cart and online payment"}, {"ar": "تتبع السائق مباشرة وإشعارات الطلب", "en": "Live driver tracking and order notifications"}]},
+      {"name": {"ar": "لوحة تحكم ويب", "en": "Web admin dashboard"}, "rate": 15000, "discount_pct": 10,
+       "scope": [{"ar": "إدارة الطلبات والمنتجات والسائقين", "en": "Manage orders, products and drivers"}, {"ar": "تقارير المبيعات اليومية", "en": "Daily sales reports"}]},
+      {"name": {"ar": "استضافة ودعم فني لمدة سنة", "en": "Hosting & 1-year support"}, "rate": 2500, "discount_pct": 100,
+       "scope": [{"ar": "سيرفر VPS، SSL، نسخ احتياطي يومي، مراقبة", "en": "VPS server, SSL, daily backups, monitoring"}]}
+    ],
+    "technology": "Next.js · Flutter · PostgreSQL · VPS + Docker",
+    "not_included": {"ar": "برنامج نقاط الولاء", "en": "Loyalty points programme"},
+    "timeline_days": 40
+  }
+}
