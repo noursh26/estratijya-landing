@@ -5,7 +5,7 @@ Builds the four IT-department documents in the Estratijiya identity (logo, IBM P
 1. **Project Assessment Playbook** — fixed reference, not per project
 2. **Internal Assessment** — per project, confidential
 3. **Quotation** — per project, sent to the client
-4. **UI/UX Flow Map** — per project, internal: every screen, flow, branch and state of the app, as diagrams + steps + screen cards + tables (no visual design)
+4. **UI/UX Flow Map** — per project, internal: every screen, flow, branch and state of the app, as diagrams + steps + screen cards + tables (no visual design). Multi-platform projects are split into parts (one per platform) plus shared sections, in one PDF or one PDF per part (`flow_map.output`)
 
 ## Run
 

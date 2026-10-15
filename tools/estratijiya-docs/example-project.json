@@ -65,8 +65,8 @@
   "flow_map": {
     "version": "1.0",
     "summary": {
-      "ar": "خريطة كاملة لكيف يتحرك العميل داخل تطبيق الطلبات من فتح التطبيق حتى استلام الطلب، وكيف يدير فريق المتجر الطلبات من لوحة التحكم. لا تحتوي تصاميم؛ تصف ماذا يحدث في كل خطوة.",
-      "en": "The complete map of how a customer moves through the ordering app from first launch to receiving the order, and how the store team runs orders from the dashboard. It holds no visual design; it describes what happens at every step."
+      "ar": "خريطة كاملة لمشروع من منصتين: تطبيق العميل (أندرويد و iOS) ولوحة تحكم ويب. الأقسام المشتركة تشرح ما يربط المنصتين، وكل جزء يشرح منصته بالتفصيل. لا تحتوي تصاميم.",
+      "en": "The complete map of a two-platform project: the customer app (Android and iOS) and a web dashboard. Shared sections cover what links the platforms; each part covers its own platform in detail. No visual design."
     },
     "sections": [
       {
@@ -154,94 +154,94 @@
       },
       {
         "title": {
-          "ar": "خريطة التنقل العامة للتطبيق",
-          "en": "App navigation map"
+          "ar": "دورة الطلب بين المنصات",
+          "en": "Order lifecycle across platforms"
         },
+        "platforms": [
+          {
+            "ar": "التطبيق",
+            "en": "App"
+          },
+          {
+            "ar": "السيرفر",
+            "en": "Server"
+          },
+          {
+            "ar": "لوحة التحكم",
+            "en": "Dashboard"
+          }
+        ],
         "intro": {
-          "ar": "من أين يمكن الوصول إلى كل شاشة. الشريط السفلي يحتوي ثلاث تبويبات ثابتة.",
-          "en": "Where each screen is reached from. The bottom bar holds three fixed tabs."
+          "ar": "كيف ينتقل الطلب بين تطبيق العميل والسيرفر ولوحة التحكم، وما الذي يراه كل طرف.",
+          "en": "How an order moves between the customer app, the server and the dashboard, and what each side sees."
         },
         "blocks": [
           {
             "type": "diagram",
             "nodes": [
               {
-                "id": "launch",
-                "kind": "terminal",
+                "id": "pay",
+                "kind": "action",
                 "label": {
-                  "ar": "فتح التطبيق",
-                  "en": "App launch"
+                  "ar": "العميل يدفع",
+                  "en": "Customer pays"
                 }
               },
               {
-                "id": "splash",
+                "id": "gw",
+                "kind": "external",
+                "label": {
+                  "ar": "بوابة الدفع",
+                  "en": "Payment gateway"
+                }
+              },
+              {
+                "id": "create",
+                "kind": "system",
+                "label": {
+                  "ar": "الطلب ← جديد",
+                  "en": "Order → New"
+                }
+              },
+              {
+                "id": "push",
+                "kind": "system",
+                "label": {
+                  "ar": "إشعار لحظي للوحة",
+                  "en": "Real-time alert to dashboard"
+                }
+              },
+              {
+                "id": "card",
                 "kind": "screen",
-                "code": "C-00",
+                "code": "D-02",
                 "label": {
-                  "ar": "شاشة البداية",
-                  "en": "Splash"
+                  "ar": "بطاقة الطلب الجديد",
+                  "en": "New order card"
                 }
               },
               {
-                "id": "logged",
+                "id": "decide",
                 "kind": "decision",
                 "label": {
-                  "ar": "مسجّل دخول؟",
-                  "en": "Logged in?"
+                  "ar": "قبول؟",
+                  "en": "Accept?"
                 }
               },
               {
-                "id": "login",
-                "kind": "screen",
-                "code": "C-01",
+                "id": "fcm",
+                "kind": "external",
                 "label": {
-                  "ar": "تسجيل الدخول",
-                  "en": "Login"
+                  "ar": "إشعار FCM للعميل",
+                  "en": "FCM push to customer"
                 }
               },
               {
-                "id": "home",
-                "kind": "screen",
-                "code": "C-03",
+                "id": "refund",
+                "kind": "system",
                 "label": {
-                  "ar": "الرئيسية / المنتجات",
-                  "en": "Home / products"
-                }
-              },
-              {
-                "id": "orders",
-                "kind": "screen",
-                "code": "C-08",
-                "label": {
-                  "ar": "طلباتي",
-                  "en": "My orders"
-                }
-              },
-              {
-                "id": "acct",
-                "kind": "screen",
-                "code": "C-10",
-                "label": {
-                  "ar": "حسابي",
-                  "en": "Account"
-                }
-              },
-              {
-                "id": "prod",
-                "kind": "screen",
-                "code": "C-04",
-                "label": {
-                  "ar": "تفاصيل المنتج",
-                  "en": "Product details"
-                }
-              },
-              {
-                "id": "cart",
-                "kind": "screen",
-                "code": "C-05",
-                "label": {
-                  "ar": "السلة",
-                  "en": "Cart"
+                  "ar": "استرداد عبر البوابة",
+                  "en": "Gateway refund"
                 }
               },
               {
@@ -256,748 +256,92 @@
             ],
             "edges": [
               {
-                "from": "launch",
-                "to": "splash"
+                "from": "pay",
+                "to": "gw"
               },
               {
-                "from": "splash",
-                "to": "logged"
-              },
-              {
-                "from": "logged",
-                "to": "login",
+                "from": "gw",
+                "to": "create",
                 "label": {
-                  "ar": "لا",
-                  "en": "No"
-                },
-                "kind": "alt"
-              },
-              {
-                "from": "logged",
-                "to": "home",
-                "label": {
-                  "ar": "نعم",
-                  "en": "Yes"
-                },
-                "kind": "ok"
-              },
-              {
-                "from": "login",
-                "to": "home"
-              },
-              {
-                "from": "home",
-                "to": "prod"
-              },
-              {
-                "from": "prod",
-                "to": "cart"
-              },
-              {
-                "from": "home",
-                "to": "orders",
-                "label": {
-                  "ar": "تبويب",
-                  "en": "Tab"
-                },
-                "kind": "alt"
-              },
-              {
-                "from": "home",
-                "to": "acct",
-                "label": {
-                  "ar": "تبويب",
-                  "en": "Tab"
-                },
-                "kind": "alt"
-              },
-              {
-                "from": "orders",
-                "to": "track"
-              }
-            ],
-            "caption": {
-              "ar": "الشريط السفلي متاح من C-03 و C-08 و C-10.",
-              "en": "The bottom bar is available on C-03, C-08 and C-10."
-            }
-          }
-        ]
-      },
-      {
-        "title": {
-          "ar": "تسجيل الدخول برقم الهاتف",
-          "en": "Phone-number login"
-        },
-        "blocks": [
-          {
-            "type": "diagram",
-            "nodes": [
-              {
-                "id": "login",
-                "kind": "screen",
-                "code": "C-01",
-                "label": {
-                  "ar": "إدخال رقم الهاتف",
-                  "en": "Enter phone number"
-                }
-              },
-              {
-                "id": "valid",
-                "kind": "decision",
-                "label": {
-                  "ar": "الرقم صحيح؟",
-                  "en": "Valid number?"
-                }
-              },
-              {
-                "id": "send",
-                "kind": "system",
-                "label": {
-                  "ar": "إرسال رمز SMS",
-                  "en": "Send SMS code"
-                }
-              },
-              {
-                "id": "sms",
-                "kind": "external",
-                "label": {
-                  "ar": "مزوّد الرسائل",
-                  "en": "SMS provider"
-                }
-              },
-              {
-                "id": "otp",
-                "kind": "screen",
-                "code": "C-02",
-                "label": {
-                  "ar": "إدخال الرمز",
-                  "en": "Enter code"
-                }
-              },
-              {
-                "id": "check",
-                "kind": "decision",
-                "label": {
-                  "ar": "الرمز صحيح؟",
-                  "en": "Code correct?"
-                }
-              },
-              {
-                "id": "new",
-                "kind": "decision",
-                "label": {
-                  "ar": "حساب جديد؟",
-                  "en": "New account?"
-                }
-              },
-              {
-                "id": "name",
-                "kind": "action",
-                "label": {
-                  "ar": "إدخال الاسم",
-                  "en": "Enter name"
-                }
-              },
-              {
-                "id": "home",
-                "kind": "screen",
-                "code": "C-03",
-                "label": {
-                  "ar": "الرئيسية",
-                  "en": "Home"
-                }
-              },
-              {
-                "id": "err",
-                "kind": "error",
-                "label": {
-                  "ar": "رسالة خطأ تحت الحقل",
-                  "en": "Error under the field"
-                }
-              },
-              {
-                "id": "lock",
-                "kind": "error",
-                "label": {
-                  "ar": "قفل ١٠ دقائق بعد ٥ محاولات",
-                  "en": "10-min lock after 5 tries"
-                }
-              }
-            ],
-            "edges": [
-              {
-                "from": "login",
-                "to": "valid"
-              },
-              {
-                "from": "valid",
-                "to": "err",
-                "label": {
-                  "ar": "لا",
-                  "en": "No"
-                },
-                "kind": "error"
-              },
-              {
-                "from": "valid",
-                "to": "send",
-                "label": {
-                  "ar": "نعم",
-                  "en": "Yes"
-                },
-                "kind": "ok"
-              },
-              {
-                "from": "send",
-                "to": "sms",
-                "kind": "alt"
-              },
-              {
-                "from": "send",
-                "to": "otp"
-              },
-              {
-                "from": "otp",
-                "to": "check"
-              },
-              {
-                "from": "check",
-                "to": "lock",
-                "label": {
-                  "ar": "خطأ ×٥",
-                  "en": "Wrong ×5"
-                },
-                "kind": "error"
-              },
-              {
-                "from": "check",
-                "to": "new",
-                "label": {
-                  "ar": "نعم",
-                  "en": "Yes"
-                },
-                "kind": "ok"
-              },
-              {
-                "from": "new",
-                "to": "name",
-                "label": {
-                  "ar": "نعم",
-                  "en": "Yes"
-                }
-              },
-              {
-                "from": "new",
-                "to": "home",
-                "label": {
-                  "ar": "لا",
-                  "en": "No"
-                }
-              },
-              {
-                "from": "name",
-                "to": "home"
-              }
-            ]
-          },
-          {
-            "type": "steps",
-            "title": {
-              "ar": "الخطوات بالتفصيل",
-              "en": "Step by step"
-            },
-            "items": [
-              {
-                "user": {
-                  "ar": "يكتب رقم هاتفه ويضغط **متابعة**",
-                  "en": "Types phone number, taps **Continue**"
-                },
-                "system": {
-                  "ar": "يتحقق من الصيغة ويرسل رمزاً من ٤ أرقام",
-                  "en": "Checks the format, sends a 4-digit code"
-                },
-                "next": {
-                  "ar": "C-02 إدخال الرمز",
-                  "en": "C-02 Enter code"
-                },
-                "alt": [
-                  {
-                    "if": {
-                      "ar": "الرقم ناقص أو بصيغة خاطئة",
-                      "en": "Number incomplete or wrong format"
-                    },
-                    "then": {
-                      "ar": "يبقى في C-01 مع رسالة تحت الحقل، والزر معطّل",
-                      "en": "Stays on C-01 with a message under the field; button disabled"
-                    }
-                  },
-                  {
-                    "if": {
-                      "ar": "لا يوجد إنترنت",
-                      "en": "No internet"
-                    },
-                    "then": {
-                      "ar": "شريط علوي: لا يوجد اتصال، مع زر إعادة المحاولة",
-                      "en": "Top banner: no connection, with a Retry button"
-                    }
-                  }
-                ]
-              },
-              {
-                "user": {
-                  "ar": "يكتب الرمز (يُملأ تلقائياً على أندرويد إن أمكن)",
-                  "en": "Enters the code (auto-filled on Android where possible)"
-                },
-                "system": {
-                  "ar": "يتحقق من الرمز وصلاحيته (٥ دقائق)",
-                  "en": "Verifies the code and its 5-minute validity"
-                },
-                "next": {
-                  "ar": "الرئيسية، أو إدخال الاسم إن كان الحساب جديداً",
-                  "en": "Home, or Enter name for a new account"
-                },
-                "alt": [
-                  {
-                    "if": {
-                      "ar": "رمز خاطئ",
-                      "en": "Wrong code"
-                    },
-                    "then": {
-                      "ar": "اهتزاز الحقل ورسالة، يبقى في C-02",
-                      "en": "Field shakes with a message; stays on C-02"
-                    }
-                  },
-                  {
-                    "if": {
-                      "ar": "انتهت صلاحية الرمز",
-                      "en": "Code expired"
-                    },
-                    "then": {
-                      "ar": "يظهر زر **إعادة الإرسال** فوراً",
-                      "en": "**Resend** button appears at once"
-                    }
-                  }
-                ]
-              },
-              {
-                "user": {
-                  "ar": "يضغط **إعادة الإرسال**",
-                  "en": "Taps **Resend**"
-                },
-                "system": {
-                  "ar": "يرسل رمزاً جديداً ويعيد العدّاد إلى ٦٠ ثانية",
-                  "en": "Sends a new code and restarts the 60-second timer"
-                },
-                "next": {
-                  "ar": "C-02 نفسها",
-                  "en": "Same C-02"
-                }
-              }
-            ]
-          },
-          {
-            "type": "screen",
-            "code": "C-01",
-            "name": {
-              "ar": "تسجيل الدخول",
-              "en": "Login"
-            },
-            "platform": {
-              "ar": "التطبيق",
-              "en": "App"
-            },
-            "role": {
-              "ar": "العميل",
-              "en": "Customer"
-            },
-            "purpose": {
-              "ar": "إدخال رقم الهاتف لبدء تسجيل الدخول أو إنشاء حساب بنفس الخطوة.",
-              "en": "Enter the phone number to log in or create an account in the same step."
-            },
-            "entry": [
-              {
-                "ar": "أول فتح للتطبيق دون جلسة",
-                "en": "First launch with no session"
-              },
-              {
-                "ar": "بعد تسجيل الخروج أو انتهاء الجلسة",
-                "en": "After logout or session expiry"
-              }
-            ],
-            "elements": [
-              {
-                "ar": "قائمة رمز الدولة (الافتراضي +971)",
-                "en": "Country-code picker (default +971)"
-              },
-              {
-                "ar": "حقل رقم الهاتف",
-                "en": "Phone-number field"
-              },
-              {
-                "ar": "زر **متابعة**",
-                "en": "**Continue** button"
-              },
-              {
-                "ar": "رابط الشروط وسياسة الخصوصية",
-                "en": "Terms and privacy links"
-              }
-            ],
-            "actions": [
-              {
-                "do": {
-                  "ar": "متابعة",
-                  "en": "Continue"
-                },
-                "then": {
-                  "ar": "إرسال الرمز والانتقال إلى C-02",
-                  "en": "Send the code and go to C-02"
-                }
-              },
-              {
-                "do": {
-                  "ar": "الشروط / الخصوصية",
-                  "en": "Terms / privacy"
-                },
-                "then": {
-                  "ar": "صفحة ويب داخل التطبيق",
-                  "en": "In-app web page"
-                }
-              }
-            ],
-            "validation": [
-              {
-                "ar": "أرقام فقط، ٩ خانات بعد رمز الدولة",
-                "en": "Digits only, 9 digits after the country code"
-              },
-              {
-                "ar": "الزر معطّل حتى يكتمل الرقم",
-                "en": "Button disabled until the number is complete"
-              }
-            ],
-            "states": [
-              {
-                "state": {
-                  "ar": "جاري الإرسال",
-                  "en": "Sending"
-                },
-                "shows": {
-                  "ar": "مؤشر تحميل داخل الزر",
-                  "en": "Spinner inside the button"
-                }
-              },
-              {
-                "state": {
-                  "ar": "بلا إنترنت",
-                  "en": "Offline"
-                },
-                "shows": {
-                  "ar": "شريط علوي مع إعادة المحاولة",
-                  "en": "Top banner with Retry"
-                }
-              }
-            ]
-          },
-          {
-            "type": "screen",
-            "code": "C-02",
-            "name": {
-              "ar": "إدخال الرمز",
-              "en": "Enter code"
-            },
-            "platform": {
-              "ar": "التطبيق",
-              "en": "App"
-            },
-            "role": {
-              "ar": "العميل",
-              "en": "Customer"
-            },
-            "elements": [
-              {
-                "ar": "٤ خانات للرمز",
-                "en": "4 code boxes"
-              },
-              {
-                "ar": "عدّاد إعادة الإرسال ٦٠ ثانية",
-                "en": "60-second resend timer"
-              },
-              {
-                "ar": "رابط **تغيير الرقم**",
-                "en": "**Change number** link"
-              }
-            ],
-            "actions": [
-              {
-                "do": {
-                  "ar": "إكمال الخانات",
-                  "en": "Fill the boxes"
-                },
-                "then": {
-                  "ar": "تحقق تلقائي دون زر",
-                  "en": "Verifies automatically, no button"
-                }
-              },
-              {
-                "do": {
-                  "ar": "تغيير الرقم",
-                  "en": "Change number"
-                },
-                "then": {
-                  "ar": "العودة إلى C-01 مع الرقم معبّأ",
-                  "en": "Back to C-01 with the number filled"
-                }
-              }
-            ],
-            "states": [
-              {
-                "state": {
-                  "ar": "خطأ ×٥",
-                  "en": "Wrong ×5"
-                },
-                "shows": {
-                  "ar": "قفل ١٠ دقائق مع عدّاد تنازلي",
-                  "en": "10-minute lock with countdown"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "title": {
-          "ar": "الطلب والدفع",
-          "en": "Ordering and payment"
-        },
-        "blocks": [
-          {
-            "type": "steps",
-            "items": [
-              {
-                "user": {
-                  "ar": "يتصفح المنتجات أو يبحث",
-                  "en": "Browses or searches products"
-                },
-                "system": {
-                  "ar": "يعرض المنتجات حسب التصنيف مع التوفر",
-                  "en": "Shows products by category with availability"
-                },
-                "next": {
-                  "ar": "C-04 تفاصيل المنتج",
-                  "en": "C-04 Product details"
-                }
-              },
-              {
-                "user": {
-                  "ar": "يختار الكمية ويضغط **أضف للسلة**",
-                  "en": "Picks quantity, taps **Add to cart**"
-                },
-                "system": {
-                  "ar": "يحدّث عدّاد السلة ويعرض رسالة قصيرة",
-                  "en": "Updates the cart badge, shows a short toast"
-                },
-                "next": {
-                  "ar": "يبقى في C-04",
-                  "en": "Stays on C-04"
-                },
-                "alt": [
-                  {
-                    "if": {
-                      "ar": "المنتج نفد",
-                      "en": "Out of stock"
-                    },
-                    "then": {
-                      "ar": "الزر معطّل مع عبارة: غير متوفر حالياً",
-                      "en": "Button disabled: Currently unavailable"
-                    }
-                  }
-                ]
-              },
-              {
-                "user": {
-                  "ar": "يفتح السلة ويضغط **إتمام الطلب**",
-                  "en": "Opens the cart, taps **Checkout**"
-                },
-                "system": {
-                  "ar": "يعيد حساب الأسعار والتوفر من السيرفر",
-                  "en": "Recalculates prices and stock on the server"
-                },
-                "next": {
-                  "ar": "C-06 الدفع والعنوان",
-                  "en": "C-06 Checkout"
-                },
-                "alt": [
-                  {
-                    "if": {
-                      "ar": "تغيّر سعر أو نفد منتج",
-                      "en": "A price changed or item sold out"
-                    },
-                    "then": {
-                      "ar": "تنبيه في السلة يوضّح التغيير قبل المتابعة",
-                      "en": "Cart notice explaining the change before continuing"
-                    }
-                  }
-                ]
-              },
-              {
-                "user": {
-                  "ar": "يختار العنوان وطريقة الدفع ويؤكد",
-                  "en": "Picks address and payment, confirms"
-                },
-                "system": {
-                  "ar": "ينشئ الطلب بحالة **بانتظار الدفع** ويفتح بوابة الدفع",
-                  "en": "Creates the order as **Awaiting payment**, opens the gateway"
-                },
-                "next": {
-                  "ar": "صفحة بوابة الدفع",
-                  "en": "Payment gateway page"
-                }
-              },
-              {
-                "user": {
-                  "ar": "يدفع بالبطاقة",
-                  "en": "Pays by card"
-                },
-                "system": {
-                  "ar": "يستقبل نتيجة البوابة ويحوّل الطلب إلى **جديد**، ويرسل إشعاراً للوحة التحكم",
-                  "en": "Receives the gateway result, moves the order to **New**, notifies the dashboard"
-                },
-                "next": {
-                  "ar": "C-07 نتيجة الطلب",
-                  "en": "C-07 Order result"
-                },
-                "alt": [
-                  {
-                    "if": {
-                      "ar": "فشل الدفع أو ألغاه",
-                      "en": "Payment failed or cancelled"
-                    },
-                    "then": {
-                      "ar": "C-07 بحالة فشل مع **إعادة المحاولة**، والسلة كما هي",
-                      "en": "C-07 in failure state with **Retry**; cart unchanged"
-                    }
-                  },
-                  {
-                    "if": {
-                      "ar": "أُغلق التطبيق أثناء الدفع",
-                      "en": "App closed during payment"
-                    },
-                    "then": {
-                      "ar": "عند الفتح التالي يُعرض آخر طلب بحالته الفعلية من السيرفر",
-                      "en": "Next launch shows the last order with its real server status"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "screen",
-            "code": "C-05",
-            "name": {
-              "ar": "السلة",
-              "en": "Cart"
-            },
-            "platform": {
-              "ar": "التطبيق",
-              "en": "App"
-            },
-            "role": {
-              "ar": "العميل",
-              "en": "Customer"
-            },
-            "entry": [
-              {
-                "ar": "أيقونة السلة في الأعلى من أي شاشة",
-                "en": "Cart icon at the top of any screen"
-              },
-              {
-                "ar": "بعد الإضافة من C-04",
-                "en": "After adding from C-04"
-              }
-            ],
-            "elements": [
-              {
-                "ar": "قائمة المنتجات مع الكمية (+ / −) والحذف",
-                "en": "Item list with quantity (+/−) and remove"
-              },
-              {
-                "ar": "المجموع الفرعي، رسوم التوصيل، الإجمالي",
-                "en": "Subtotal, delivery fee, total"
-              },
-              {
-                "ar": "زر **إتمام الطلب**",
-                "en": "**Checkout** button"
-              }
-            ],
-            "states": [
-              {
-                "state": {
-                  "ar": "فارغة",
-                  "en": "Empty"
-                },
-                "shows": {
-                  "ar": "رسالة: سلتك فارغة، وزر **تصفح المنتجات**",
-                  "en": "Message: your cart is empty, with **Browse products**"
-                }
-              },
-              {
-                "state": {
-                  "ar": "أقل من الحد الأدنى للطلب",
-                  "en": "Below minimum order"
-                },
-                "shows": {
-                  "ar": "الزر معطّل مع المبلغ المتبقي",
-                  "en": "Button disabled, showing the amount left"
-                }
-              }
-            ]
-          },
-          {
-            "type": "screen",
-            "code": "C-07",
-            "name": {
-              "ar": "نتيجة الطلب",
-              "en": "Order result"
-            },
-            "platform": {
-              "ar": "التطبيق",
-              "en": "App"
-            },
-            "role": {
-              "ar": "العميل",
-              "en": "Customer"
-            },
-            "states": [
-              {
-                "state": {
                   "ar": "نجاح",
                   "en": "Success"
                 },
-                "shows": {
-                  "ar": "رقم الطلب، الوقت المتوقع، زر **تتبع الطلب**",
-                  "en": "Order number, ETA, **Track order** button"
-                }
+                "kind": "ok"
               },
               {
-                "state": {
-                  "ar": "فشل",
-                  "en": "Failure"
+                "from": "create",
+                "to": "push"
+              },
+              {
+                "from": "push",
+                "to": "card"
+              },
+              {
+                "from": "card",
+                "to": "decide"
+              },
+              {
+                "from": "decide",
+                "to": "fcm",
+                "label": {
+                  "ar": "نعم",
+                  "en": "Yes"
                 },
-                "shows": {
-                  "ar": "سبب مختصر من البوابة، **إعادة المحاولة** و**العودة للسلة**",
-                  "en": "Short gateway reason, **Retry** and **Back to cart**"
-                }
+                "kind": "ok"
+              },
+              {
+                "from": "decide",
+                "to": "refund",
+                "label": {
+                  "ar": "رفض",
+                  "en": "Reject"
+                },
+                "kind": "error"
+              },
+              {
+                "from": "refund",
+                "to": "fcm",
+                "kind": "error"
+              },
+              {
+                "from": "fcm",
+                "to": "track"
+              }
+            ],
+            "groups": [
+              {
+                "label": {
+                  "ar": "تطبيق العميل",
+                  "en": "Customer app"
+                },
+                "nodes": [
+                  "pay",
+                  "track"
+                ]
+              },
+              {
+                "label": {
+                  "ar": "السيرفر",
+                  "en": "Server"
+                },
+                "nodes": [
+                  "create",
+                  "push",
+                  "refund"
+                ]
+              },
+              {
+                "label": {
+                  "ar": "لوحة التحكم",
+                  "en": "Dashboard"
+                },
+                "nodes": [
+                  "card",
+                  "decide"
+                ]
               }
             ]
-          }
-        ]
-      },
-      {
-        "title": {
-          "ar": "حالات الطلب والتتبع",
-          "en": "Order states and tracking"
-        },
-        "blocks": [
+          },
           {
             "type": "diagram",
             "dir": "LR",
@@ -1117,13 +461,1231 @@
               "ar": "العميل يستطيع الإلغاء فقط قبل **مقبول**.",
               "en": "The customer can cancel only before **Accepted**."
             }
+          }
+        ]
+      },
+      {
+        "title": {
+          "ar": "تطبيق العميل",
+          "en": "Customer app"
+        },
+        "label": {
+          "ar": "تطبيق العميل",
+          "en": "Customer app"
+        },
+        "platforms": [
+          "Android",
+          "iOS"
+        ],
+        "intro": {
+          "ar": "تطبيق Flutter واحد لأندرويد و iOS.",
+          "en": "One Flutter app for Android and iOS."
+        },
+        "sections": [
+          {
+            "title": {
+              "ar": "خريطة التنقل العامة للتطبيق",
+              "en": "App navigation map"
+            },
+            "intro": {
+              "ar": "من أين يمكن الوصول إلى كل شاشة. الشريط السفلي يحتوي ثلاث تبويبات ثابتة.",
+              "en": "Where each screen is reached from. The bottom bar holds three fixed tabs."
+            },
+            "blocks": [
+              {
+                "type": "diagram",
+                "nodes": [
+                  {
+                    "id": "launch",
+                    "kind": "terminal",
+                    "label": {
+                      "ar": "فتح التطبيق",
+                      "en": "App launch"
+                    }
+                  },
+                  {
+                    "id": "splash",
+                    "kind": "screen",
+                    "code": "C-00",
+                    "label": {
+                      "ar": "شاشة البداية",
+                      "en": "Splash"
+                    }
+                  },
+                  {
+                    "id": "logged",
+                    "kind": "decision",
+                    "label": {
+                      "ar": "مسجّل دخول؟",
+                      "en": "Logged in?"
+                    }
+                  },
+                  {
+                    "id": "login",
+                    "kind": "screen",
+                    "code": "C-01",
+                    "label": {
+                      "ar": "تسجيل الدخول",
+                      "en": "Login"
+                    }
+                  },
+                  {
+                    "id": "home",
+                    "kind": "screen",
+                    "code": "C-03",
+                    "label": {
+                      "ar": "الرئيسية / المنتجات",
+                      "en": "Home / products"
+                    }
+                  },
+                  {
+                    "id": "orders",
+                    "kind": "screen",
+                    "code": "C-08",
+                    "label": {
+                      "ar": "طلباتي",
+                      "en": "My orders"
+                    }
+                  },
+                  {
+                    "id": "acct",
+                    "kind": "screen",
+                    "code": "C-10",
+                    "label": {
+                      "ar": "حسابي",
+                      "en": "Account"
+                    }
+                  },
+                  {
+                    "id": "prod",
+                    "kind": "screen",
+                    "code": "C-04",
+                    "label": {
+                      "ar": "تفاصيل المنتج",
+                      "en": "Product details"
+                    }
+                  },
+                  {
+                    "id": "cart",
+                    "kind": "screen",
+                    "code": "C-05",
+                    "label": {
+                      "ar": "السلة",
+                      "en": "Cart"
+                    }
+                  },
+                  {
+                    "id": "track",
+                    "kind": "screen",
+                    "code": "C-09",
+                    "label": {
+                      "ar": "تتبع الطلب",
+                      "en": "Order tracking"
+                    }
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "launch",
+                    "to": "splash"
+                  },
+                  {
+                    "from": "splash",
+                    "to": "logged"
+                  },
+                  {
+                    "from": "logged",
+                    "to": "login",
+                    "label": {
+                      "ar": "لا",
+                      "en": "No"
+                    },
+                    "kind": "alt"
+                  },
+                  {
+                    "from": "logged",
+                    "to": "home",
+                    "label": {
+                      "ar": "نعم",
+                      "en": "Yes"
+                    },
+                    "kind": "ok"
+                  },
+                  {
+                    "from": "login",
+                    "to": "home"
+                  },
+                  {
+                    "from": "home",
+                    "to": "prod"
+                  },
+                  {
+                    "from": "prod",
+                    "to": "cart"
+                  },
+                  {
+                    "from": "home",
+                    "to": "orders",
+                    "label": {
+                      "ar": "تبويب",
+                      "en": "Tab"
+                    },
+                    "kind": "alt"
+                  },
+                  {
+                    "from": "home",
+                    "to": "acct",
+                    "label": {
+                      "ar": "تبويب",
+                      "en": "Tab"
+                    },
+                    "kind": "alt"
+                  },
+                  {
+                    "from": "orders",
+                    "to": "track"
+                  }
+                ],
+                "caption": {
+                  "ar": "الشريط السفلي متاح من C-03 و C-08 و C-10.",
+                  "en": "The bottom bar is available on C-03, C-08 and C-10."
+                }
+              }
+            ]
           },
           {
-            "type": "table",
             "title": {
-              "ar": "الإشعارات والروابط العميقة",
-              "en": "Notifications and deep links"
+              "ar": "تسجيل الدخول برقم الهاتف",
+              "en": "Phone-number login"
             },
+            "blocks": [
+              {
+                "type": "diagram",
+                "nodes": [
+                  {
+                    "id": "login",
+                    "kind": "screen",
+                    "code": "C-01",
+                    "label": {
+                      "ar": "إدخال رقم الهاتف",
+                      "en": "Enter phone number"
+                    }
+                  },
+                  {
+                    "id": "valid",
+                    "kind": "decision",
+                    "label": {
+                      "ar": "الرقم صحيح؟",
+                      "en": "Valid number?"
+                    }
+                  },
+                  {
+                    "id": "send",
+                    "kind": "system",
+                    "label": {
+                      "ar": "إرسال رمز SMS",
+                      "en": "Send SMS code"
+                    }
+                  },
+                  {
+                    "id": "sms",
+                    "kind": "external",
+                    "label": {
+                      "ar": "مزوّد الرسائل",
+                      "en": "SMS provider"
+                    }
+                  },
+                  {
+                    "id": "otp",
+                    "kind": "screen",
+                    "code": "C-02",
+                    "label": {
+                      "ar": "إدخال الرمز",
+                      "en": "Enter code"
+                    }
+                  },
+                  {
+                    "id": "check",
+                    "kind": "decision",
+                    "label": {
+                      "ar": "الرمز صحيح؟",
+                      "en": "Code correct?"
+                    }
+                  },
+                  {
+                    "id": "new",
+                    "kind": "decision",
+                    "label": {
+                      "ar": "حساب جديد؟",
+                      "en": "New account?"
+                    }
+                  },
+                  {
+                    "id": "name",
+                    "kind": "action",
+                    "label": {
+                      "ar": "إدخال الاسم",
+                      "en": "Enter name"
+                    }
+                  },
+                  {
+                    "id": "home",
+                    "kind": "screen",
+                    "code": "C-03",
+                    "label": {
+                      "ar": "الرئيسية",
+                      "en": "Home"
+                    }
+                  },
+                  {
+                    "id": "err",
+                    "kind": "error",
+                    "label": {
+                      "ar": "رسالة خطأ تحت الحقل",
+                      "en": "Error under the field"
+                    }
+                  },
+                  {
+                    "id": "lock",
+                    "kind": "error",
+                    "label": {
+                      "ar": "قفل ١٠ دقائق بعد ٥ محاولات",
+                      "en": "10-min lock after 5 tries"
+                    }
+                  }
+                ],
+                "edges": [
+                  {
+                    "from": "login",
+                    "to": "valid"
+                  },
+                  {
+                    "from": "valid",
+                    "to": "err",
+                    "label": {
+                      "ar": "لا",
+                      "en": "No"
+                    },
+                    "kind": "error"
+                  },
+                  {
+                    "from": "valid",
+                    "to": "send",
+                    "label": {
+                      "ar": "نعم",
+                      "en": "Yes"
+                    },
+                    "kind": "ok"
+                  },
+                  {
+                    "from": "send",
+                    "to": "sms",
+                    "kind": "alt"
+                  },
+                  {
+                    "from": "send",
+                    "to": "otp"
+                  },
+                  {
+                    "from": "otp",
+                    "to": "check"
+                  },
+                  {
+                    "from": "check",
+                    "to": "lock",
+                    "label": {
+                      "ar": "خطأ ×٥",
+                      "en": "Wrong ×5"
+                    },
+                    "kind": "error"
+                  },
+                  {
+                    "from": "check",
+                    "to": "new",
+                    "label": {
+                      "ar": "نعم",
+                      "en": "Yes"
+                    },
+                    "kind": "ok"
+                  },
+                  {
+                    "from": "new",
+                    "to": "name",
+                    "label": {
+                      "ar": "نعم",
+                      "en": "Yes"
+                    }
+                  },
+                  {
+                    "from": "new",
+                    "to": "home",
+                    "label": {
+                      "ar": "لا",
+                      "en": "No"
+                    }
+                  },
+                  {
+                    "from": "name",
+                    "to": "home"
+                  }
+                ]
+              },
+              {
+                "type": "steps",
+                "title": {
+                  "ar": "الخطوات بالتفصيل",
+                  "en": "Step by step"
+                },
+                "items": [
+                  {
+                    "user": {
+                      "ar": "يكتب رقم هاتفه ويضغط **متابعة**",
+                      "en": "Types phone number, taps **Continue**"
+                    },
+                    "system": {
+                      "ar": "يتحقق من الصيغة ويرسل رمزاً من ٤ أرقام",
+                      "en": "Checks the format, sends a 4-digit code"
+                    },
+                    "next": {
+                      "ar": "C-02 إدخال الرمز",
+                      "en": "C-02 Enter code"
+                    },
+                    "alt": [
+                      {
+                        "if": {
+                          "ar": "الرقم ناقص أو بصيغة خاطئة",
+                          "en": "Number incomplete or wrong format"
+                        },
+                        "then": {
+                          "ar": "يبقى في C-01 مع رسالة تحت الحقل، والزر معطّل",
+                          "en": "Stays on C-01 with a message under the field; button disabled"
+                        }
+                      },
+                      {
+                        "if": {
+                          "ar": "لا يوجد إنترنت",
+                          "en": "No internet"
+                        },
+                        "then": {
+                          "ar": "شريط علوي: لا يوجد اتصال، مع زر إعادة المحاولة",
+                          "en": "Top banner: no connection, with a Retry button"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "user": {
+                      "ar": "يكتب الرمز (يُملأ تلقائياً على أندرويد إن أمكن)",
+                      "en": "Enters the code (auto-filled on Android where possible)"
+                    },
+                    "system": {
+                      "ar": "يتحقق من الرمز وصلاحيته (٥ دقائق)",
+                      "en": "Verifies the code and its 5-minute validity"
+                    },
+                    "next": {
+                      "ar": "الرئيسية، أو إدخال الاسم إن كان الحساب جديداً",
+                      "en": "Home, or Enter name for a new account"
+                    },
+                    "alt": [
+                      {
+                        "if": {
+                          "ar": "رمز خاطئ",
+                          "en": "Wrong code"
+                        },
+                        "then": {
+                          "ar": "اهتزاز الحقل ورسالة، يبقى في C-02",
+                          "en": "Field shakes with a message; stays on C-02"
+                        }
+                      },
+                      {
+                        "if": {
+                          "ar": "انتهت صلاحية الرمز",
+                          "en": "Code expired"
+                        },
+                        "then": {
+                          "ar": "يظهر زر **إعادة الإرسال** فوراً",
+                          "en": "**Resend** button appears at once"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "user": {
+                      "ar": "يضغط **إعادة الإرسال**",
+                      "en": "Taps **Resend**"
+                    },
+                    "system": {
+                      "ar": "يرسل رمزاً جديداً ويعيد العدّاد إلى ٦٠ ثانية",
+                      "en": "Sends a new code and restarts the 60-second timer"
+                    },
+                    "next": {
+                      "ar": "C-02 نفسها",
+                      "en": "Same C-02"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "screen",
+                "code": "C-01",
+                "name": {
+                  "ar": "تسجيل الدخول",
+                  "en": "Login"
+                },
+                "platform": {
+                  "ar": "التطبيق",
+                  "en": "App"
+                },
+                "role": {
+                  "ar": "العميل",
+                  "en": "Customer"
+                },
+                "purpose": {
+                  "ar": "إدخال رقم الهاتف لبدء تسجيل الدخول أو إنشاء حساب بنفس الخطوة.",
+                  "en": "Enter the phone number to log in or create an account in the same step."
+                },
+                "entry": [
+                  {
+                    "ar": "أول فتح للتطبيق دون جلسة",
+                    "en": "First launch with no session"
+                  },
+                  {
+                    "ar": "بعد تسجيل الخروج أو انتهاء الجلسة",
+                    "en": "After logout or session expiry"
+                  }
+                ],
+                "elements": [
+                  {
+                    "ar": "قائمة رمز الدولة (الافتراضي +971)",
+                    "en": "Country-code picker (default +971)"
+                  },
+                  {
+                    "ar": "حقل رقم الهاتف",
+                    "en": "Phone-number field"
+                  },
+                  {
+                    "ar": "زر **متابعة**",
+                    "en": "**Continue** button"
+                  },
+                  {
+                    "ar": "رابط الشروط وسياسة الخصوصية",
+                    "en": "Terms and privacy links"
+                  }
+                ],
+                "actions": [
+                  {
+                    "do": {
+                      "ar": "متابعة",
+                      "en": "Continue"
+                    },
+                    "then": {
+                      "ar": "إرسال الرمز والانتقال إلى C-02",
+                      "en": "Send the code and go to C-02"
+                    }
+                  },
+                  {
+                    "do": {
+                      "ar": "الشروط / الخصوصية",
+                      "en": "Terms / privacy"
+                    },
+                    "then": {
+                      "ar": "صفحة ويب داخل التطبيق",
+                      "en": "In-app web page"
+                    }
+                  }
+                ],
+                "validation": [
+                  {
+                    "ar": "أرقام فقط، ٩ خانات بعد رمز الدولة",
+                    "en": "Digits only, 9 digits after the country code"
+                  },
+                  {
+                    "ar": "الزر معطّل حتى يكتمل الرقم",
+                    "en": "Button disabled until the number is complete"
+                  }
+                ],
+                "states": [
+                  {
+                    "state": {
+                      "ar": "جاري الإرسال",
+                      "en": "Sending"
+                    },
+                    "shows": {
+                      "ar": "مؤشر تحميل داخل الزر",
+                      "en": "Spinner inside the button"
+                    }
+                  },
+                  {
+                    "state": {
+                      "ar": "بلا إنترنت",
+                      "en": "Offline"
+                    },
+                    "shows": {
+                      "ar": "شريط علوي مع إعادة المحاولة",
+                      "en": "Top banner with Retry"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "screen",
+                "code": "C-02",
+                "name": {
+                  "ar": "إدخال الرمز",
+                  "en": "Enter code"
+                },
+                "platform": {
+                  "ar": "التطبيق",
+                  "en": "App"
+                },
+                "role": {
+                  "ar": "العميل",
+                  "en": "Customer"
+                },
+                "elements": [
+                  {
+                    "ar": "٤ خانات للرمز",
+                    "en": "4 code boxes"
+                  },
+                  {
+                    "ar": "عدّاد إعادة الإرسال ٦٠ ثانية",
+                    "en": "60-second resend timer"
+                  },
+                  {
+                    "ar": "رابط **تغيير الرقم**",
+                    "en": "**Change number** link"
+                  }
+                ],
+                "actions": [
+                  {
+                    "do": {
+                      "ar": "إكمال الخانات",
+                      "en": "Fill the boxes"
+                    },
+                    "then": {
+                      "ar": "تحقق تلقائي دون زر",
+                      "en": "Verifies automatically, no button"
+                    }
+                  },
+                  {
+                    "do": {
+                      "ar": "تغيير الرقم",
+                      "en": "Change number"
+                    },
+                    "then": {
+                      "ar": "العودة إلى C-01 مع الرقم معبّأ",
+                      "en": "Back to C-01 with the number filled"
+                    }
+                  }
+                ],
+                "states": [
+                  {
+                    "state": {
+                      "ar": "خطأ ×٥",
+                      "en": "Wrong ×5"
+                    },
+                    "shows": {
+                      "ar": "قفل ١٠ دقائق مع عدّاد تنازلي",
+                      "en": "10-minute lock with countdown"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "title": {
+              "ar": "الطلب والدفع والتتبع",
+              "en": "Ordering, payment and tracking"
+            },
+            "blocks": [
+              {
+                "type": "steps",
+                "items": [
+                  {
+                    "user": {
+                      "ar": "يتصفح المنتجات أو يبحث",
+                      "en": "Browses or searches products"
+                    },
+                    "system": {
+                      "ar": "يعرض المنتجات حسب التصنيف مع التوفر",
+                      "en": "Shows products by category with availability"
+                    },
+                    "next": {
+                      "ar": "C-04 تفاصيل المنتج",
+                      "en": "C-04 Product details"
+                    }
+                  },
+                  {
+                    "user": {
+                      "ar": "يختار الكمية ويضغط **أضف للسلة**",
+                      "en": "Picks quantity, taps **Add to cart**"
+                    },
+                    "system": {
+                      "ar": "يحدّث عدّاد السلة ويعرض رسالة قصيرة",
+                      "en": "Updates the cart badge, shows a short toast"
+                    },
+                    "next": {
+                      "ar": "يبقى في C-04",
+                      "en": "Stays on C-04"
+                    },
+                    "alt": [
+                      {
+                        "if": {
+                          "ar": "المنتج نفد",
+                          "en": "Out of stock"
+                        },
+                        "then": {
+                          "ar": "الزر معطّل مع عبارة: غير متوفر حالياً",
+                          "en": "Button disabled: Currently unavailable"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "user": {
+                      "ar": "يفتح السلة ويضغط **إتمام الطلب**",
+                      "en": "Opens the cart, taps **Checkout**"
+                    },
+                    "system": {
+                      "ar": "يعيد حساب الأسعار والتوفر من السيرفر",
+                      "en": "Recalculates prices and stock on the server"
+                    },
+                    "next": {
+                      "ar": "C-06 الدفع والعنوان",
+                      "en": "C-06 Checkout"
+                    },
+                    "alt": [
+                      {
+                        "if": {
+                          "ar": "تغيّر سعر أو نفد منتج",
+                          "en": "A price changed or item sold out"
+                        },
+                        "then": {
+                          "ar": "تنبيه في السلة يوضّح التغيير قبل المتابعة",
+                          "en": "Cart notice explaining the change before continuing"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "user": {
+                      "ar": "يختار العنوان وطريقة الدفع ويؤكد",
+                      "en": "Picks address and payment, confirms"
+                    },
+                    "system": {
+                      "ar": "ينشئ الطلب بحالة **بانتظار الدفع** ويفتح بوابة الدفع",
+                      "en": "Creates the order as **Awaiting payment**, opens the gateway"
+                    },
+                    "next": {
+                      "ar": "صفحة بوابة الدفع",
+                      "en": "Payment gateway page"
+                    }
+                  },
+                  {
+                    "user": {
+                      "ar": "يدفع بالبطاقة",
+                      "en": "Pays by card"
+                    },
+                    "system": {
+                      "ar": "يستقبل نتيجة البوابة ويحوّل الطلب إلى **جديد**، ويرسل إشعاراً للوحة التحكم",
+                      "en": "Receives the gateway result, moves the order to **New**, notifies the dashboard"
+                    },
+                    "next": {
+                      "ar": "C-07 نتيجة الطلب",
+                      "en": "C-07 Order result"
+                    },
+                    "alt": [
+                      {
+                        "if": {
+                          "ar": "فشل الدفع أو ألغاه",
+                          "en": "Payment failed or cancelled"
+                        },
+                        "then": {
+                          "ar": "C-07 بحالة فشل مع **إعادة المحاولة**، والسلة كما هي",
+                          "en": "C-07 in failure state with **Retry**; cart unchanged"
+                        }
+                      },
+                      {
+                        "if": {
+                          "ar": "أُغلق التطبيق أثناء الدفع",
+                          "en": "App closed during payment"
+                        },
+                        "then": {
+                          "ar": "عند الفتح التالي يُعرض آخر طلب بحالته الفعلية من السيرفر",
+                          "en": "Next launch shows the last order with its real server status"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "screen",
+                "code": "C-05",
+                "name": {
+                  "ar": "السلة",
+                  "en": "Cart"
+                },
+                "platform": {
+                  "ar": "التطبيق",
+                  "en": "App"
+                },
+                "role": {
+                  "ar": "العميل",
+                  "en": "Customer"
+                },
+                "entry": [
+                  {
+                    "ar": "أيقونة السلة في الأعلى من أي شاشة",
+                    "en": "Cart icon at the top of any screen"
+                  },
+                  {
+                    "ar": "بعد الإضافة من C-04",
+                    "en": "After adding from C-04"
+                  }
+                ],
+                "elements": [
+                  {
+                    "ar": "قائمة المنتجات مع الكمية (+ / −) والحذف",
+                    "en": "Item list with quantity (+/−) and remove"
+                  },
+                  {
+                    "ar": "المجموع الفرعي، رسوم التوصيل، الإجمالي",
+                    "en": "Subtotal, delivery fee, total"
+                  },
+                  {
+                    "ar": "زر **إتمام الطلب**",
+                    "en": "**Checkout** button"
+                  }
+                ],
+                "states": [
+                  {
+                    "state": {
+                      "ar": "فارغة",
+                      "en": "Empty"
+                    },
+                    "shows": {
+                      "ar": "رسالة: سلتك فارغة، وزر **تصفح المنتجات**",
+                      "en": "Message: your cart is empty, with **Browse products**"
+                    }
+                  },
+                  {
+                    "state": {
+                      "ar": "أقل من الحد الأدنى للطلب",
+                      "en": "Below minimum order"
+                    },
+                    "shows": {
+                      "ar": "الزر معطّل مع المبلغ المتبقي",
+                      "en": "Button disabled, showing the amount left"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "screen",
+                "code": "C-07",
+                "name": {
+                  "ar": "نتيجة الطلب",
+                  "en": "Order result"
+                },
+                "platform": {
+                  "ar": "التطبيق",
+                  "en": "App"
+                },
+                "role": {
+                  "ar": "العميل",
+                  "en": "Customer"
+                },
+                "states": [
+                  {
+                    "state": {
+                      "ar": "نجاح",
+                      "en": "Success"
+                    },
+                    "shows": {
+                      "ar": "رقم الطلب، الوقت المتوقع، زر **تتبع الطلب**",
+                      "en": "Order number, ETA, **Track order** button"
+                    }
+                  },
+                  {
+                    "state": {
+                      "ar": "فشل",
+                      "en": "Failure"
+                    },
+                    "shows": {
+                      "ar": "سبب مختصر من البوابة، **إعادة المحاولة** و**العودة للسلة**",
+                      "en": "Short gateway reason, **Retry** and **Back to cart**"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "screen",
+                "code": "C-09",
+                "name": {
+                  "ar": "تتبع الطلب",
+                  "en": "Order tracking"
+                },
+                "platform": {
+                  "ar": "التطبيق",
+                  "en": "App"
+                },
+                "role": {
+                  "ar": "العميل",
+                  "en": "Customer"
+                },
+                "entry": [
+                  {
+                    "ar": "C-07 بعد النجاح",
+                    "en": "C-07 after success"
+                  },
+                  {
+                    "ar": "C-08 طلباتي",
+                    "en": "C-08 My orders"
+                  },
+                  {
+                    "ar": "إشعار حالة الطلب",
+                    "en": "Order-status notification"
+                  }
+                ],
+                "elements": [
+                  {
+                    "ar": "شريط مراحل الطلب",
+                    "en": "Order stage bar"
+                  },
+                  {
+                    "ar": "خريطة بموقع السائق (عند **مع السائق** فقط)",
+                    "en": "Map with driver location (only when **Out for delivery**)"
+                  },
+                  {
+                    "ar": "زر الاتصال بالسائق",
+                    "en": "Call driver button"
+                  }
+                ],
+                "states": [
+                  {
+                    "state": {
+                      "ar": "قبل خروج السائق",
+                      "en": "Before dispatch"
+                    },
+                    "shows": {
+                      "ar": "المراحل فقط، دون خريطة",
+                      "en": "Stages only, no map"
+                    }
+                  },
+                  {
+                    "state": {
+                      "ar": "انقطع موقع السائق",
+                      "en": "Driver location lost"
+                    },
+                    "shows": {
+                      "ar": "آخر موقع معروف مع وقت التحديث",
+                      "en": "Last known location with update time"
+                    }
+                  }
+                ],
+                "variants": [
+                  {
+                    "platform": "Android",
+                    "diff": {
+                      "ar": "تحديث الموقع يعمل في الخلفية مع إشعار ثابت أثناء التوصيل",
+                      "en": "Location updates run in the background with an ongoing notification during delivery"
+                    }
+                  },
+                  {
+                    "platform": "iOS",
+                    "diff": {
+                      "ar": "يُطلب إذن الإشعارات عند أول طلب، لا عند فتح التطبيق",
+                      "en": "Notification permission is asked at the first order, not at app launch"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": {
+          "ar": "لوحة التحكم",
+          "en": "Dashboard"
+        },
+        "label": {
+          "ar": "لوحة التحكم",
+          "en": "Dashboard"
+        },
+        "platforms": [
+          {
+            "ar": "ويب",
+            "en": "Web"
+          }
+        ],
+        "intro": {
+          "ar": "لوحة ويب للموظفين والمدير.",
+          "en": "Web panel for staff and the admin."
+        },
+        "sections": [
+          {
+            "title": {
+              "ar": "إدارة الطلبات",
+              "en": "Managing orders"
+            },
+            "blocks": [
+              {
+                "type": "steps",
+                "cols": [
+                  {
+                    "ar": "الموظف",
+                    "en": "Staff"
+                  },
+                  {
+                    "ar": "النظام",
+                    "en": "System"
+                  },
+                  {
+                    "ar": "الأثر على العميل",
+                    "en": "Effect on the customer"
+                  }
+                ],
+                "items": [
+                  {
+                    "user": {
+                      "ar": "يستلم طلباً جديداً ويضغط **قبول**",
+                      "en": "Gets a new order, taps **Accept**"
+                    },
+                    "system": {
+                      "ar": "يغيّر الحالة إلى مقبول",
+                      "en": "Moves the order to Accepted"
+                    },
+                    "next": {
+                      "ar": "إشعار: قيد التجهيز",
+                      "en": "Notification: being prepared"
+                    },
+                    "alt": [
+                      {
+                        "if": {
+                          "ar": "لم يُقبل خلال ١٠ دقائق",
+                          "en": "Not accepted within 10 minutes"
+                        },
+                        "then": {
+                          "ar": "تنبيه للمدير (افتراض)",
+                          "en": "Alert to the admin (assumption)"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "user": {
+                      "ar": "يضغط **رفض** ويختار السبب",
+                      "en": "Taps **Reject**, picks a reason"
+                    },
+                    "system": {
+                      "ar": "يلغي الطلب ويبدأ الاسترداد عبر البوابة",
+                      "en": "Cancels and starts the gateway refund"
+                    },
+                    "next": {
+                      "ar": "إشعار الإلغاء مع السبب",
+                      "en": "Cancellation notice with reason"
+                    }
+                  },
+                  {
+                    "user": {
+                      "ar": "يسند السائق",
+                      "en": "Assigns a driver"
+                    },
+                    "system": {
+                      "ar": "ينقل الطلب إلى مع السائق ويبدأ التتبع",
+                      "en": "Moves to Out for delivery, starts tracking"
+                    },
+                    "next": {
+                      "ar": "تظهر الخريطة في C-09",
+                      "en": "Map appears in C-09"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "screen",
+                "code": "D-02",
+                "name": {
+                  "ar": "الطلبات الجديدة",
+                  "en": "New orders"
+                },
+                "platform": {
+                  "ar": "لوحة التحكم",
+                  "en": "Dashboard"
+                },
+                "role": {
+                  "ar": "الموظف",
+                  "en": "Staff"
+                },
+                "purpose": {
+                  "ar": "قائمة لحظية بالطلبات الواردة يُتخذ عليها القرار.",
+                  "en": "Live list of incoming orders to act on."
+                },
+                "entry": [
+                  {
+                    "ar": "القائمة الجانبية",
+                    "en": "Side menu"
+                  },
+                  {
+                    "ar": "الضغط على تنبيه الطلب الجديد",
+                    "en": "Clicking the new-order alert"
+                  }
+                ],
+                "elements": [
+                  {
+                    "ar": "بطاقة لكل طلب: الرقم، الوقت، المنتجات، المبلغ",
+                    "en": "One card per order: number, time, items, amount"
+                  },
+                  {
+                    "ar": "أزرار **قبول** و**رفض**",
+                    "en": "**Accept** and **Reject** buttons"
+                  },
+                  {
+                    "ar": "عدّاد الوقت منذ وصول الطلب",
+                    "en": "Timer since the order arrived"
+                  }
+                ],
+                "actions": [
+                  {
+                    "do": {
+                      "ar": "قبول",
+                      "en": "Accept"
+                    },
+                    "then": {
+                      "ar": "ينتقل الطلب إلى قيد التجهيز",
+                      "en": "Order moves to Preparing"
+                    }
+                  },
+                  {
+                    "do": {
+                      "ar": "رفض",
+                      "en": "Reject"
+                    },
+                    "then": {
+                      "ar": "نافذة لاختيار السبب ثم إلغاء واسترداد",
+                      "en": "Dialog to pick a reason, then cancel and refund"
+                    }
+                  }
+                ],
+                "states": [
+                  {
+                    "state": {
+                      "ar": "لا توجد طلبات",
+                      "en": "No orders"
+                    },
+                    "shows": {
+                      "ar": "رسالة: لا توجد طلبات جديدة",
+                      "en": "Message: no new orders"
+                    }
+                  },
+                  {
+                    "state": {
+                      "ar": "انقطع الاتصال اللحظي",
+                      "en": "Real-time connection lost"
+                    },
+                    "shows": {
+                      "ar": "شريط أحمر مع إعادة الاتصال التلقائي كل ١٠ ثوانٍ",
+                      "en": "Red bar, auto-reconnect every 10 seconds"
+                    }
+                  }
+                ],
+                "variants": [
+                  {
+                    "platform": {
+                      "ar": "شاشة صغيرة / تابلت",
+                      "en": "Small screen / tablet"
+                    },
+                    "diff": {
+                      "ar": "البطاقات في عمود واحد، والأزرار ثابتة أسفل البطاقة",
+                      "en": "Cards in one column, buttons pinned under each card"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "table",
+                "title": {
+                  "ar": "الصلاحيات",
+                  "en": "Permissions"
+                },
+                "head": [
+                  {
+                    "ar": "الإجراء",
+                    "en": "Action"
+                  },
+                  {
+                    "ar": "الموظف",
+                    "en": "Staff"
+                  },
+                  {
+                    "ar": "المدير",
+                    "en": "Admin"
+                  }
+                ],
+                "rows": [
+                  [
+                    {
+                      "ar": "قبول / رفض الطلبات",
+                      "en": "Accept / reject orders"
+                    },
+                    "✓",
+                    "✓"
+                  ],
+                  [
+                    {
+                      "ar": "إسناد سائق",
+                      "en": "Assign driver"
+                    },
+                    "✓",
+                    "✓"
+                  ],
+                  [
+                    {
+                      "ar": "إدارة المنتجات والأسعار",
+                      "en": "Manage products and prices"
+                    },
+                    "—",
+                    "✓"
+                  ],
+                  [
+                    {
+                      "ar": "التقارير اليومية",
+                      "en": "Daily reports"
+                    },
+                    "—",
+                    "✓"
+                  ],
+                  [
+                    {
+                      "ar": "إدارة الموظفين",
+                      "en": "Manage staff"
+                    },
+                    "—",
+                    "✓"
+                  ]
+                ]
+              }
+            ]
+          }
+        ],
+        "open_questions": [
+          {
+            "ar": "هل يحتاج الموظفون تنبيهاً صوتياً مستمراً حتى قبول الطلب؟",
+            "en": "Do staff need a repeating sound until an order is accepted?"
+          }
+        ]
+      },
+      {
+        "title": {
+          "ar": "الإشعارات والروابط العميقة",
+          "en": "Notifications and deep links"
+        },
+        "blocks": [
+          {
+            "type": "table",
             "head": [
               {
                 "ar": "الحدث",
@@ -1225,216 +1787,6 @@
                 "C-08"
               ]
             ]
-          },
-          {
-            "type": "screen",
-            "code": "C-09",
-            "name": {
-              "ar": "تتبع الطلب",
-              "en": "Order tracking"
-            },
-            "platform": {
-              "ar": "التطبيق",
-              "en": "App"
-            },
-            "role": {
-              "ar": "العميل",
-              "en": "Customer"
-            },
-            "entry": [
-              {
-                "ar": "C-07 بعد النجاح",
-                "en": "C-07 after success"
-              },
-              {
-                "ar": "C-08 طلباتي",
-                "en": "C-08 My orders"
-              },
-              {
-                "ar": "إشعار حالة الطلب",
-                "en": "Order-status notification"
-              }
-            ],
-            "elements": [
-              {
-                "ar": "شريط مراحل الطلب",
-                "en": "Order stage bar"
-              },
-              {
-                "ar": "خريطة بموقع السائق (عند **مع السائق** فقط)",
-                "en": "Map with driver location (only when **Out for delivery**)"
-              },
-              {
-                "ar": "زر الاتصال بالسائق",
-                "en": "Call driver button"
-              }
-            ],
-            "states": [
-              {
-                "state": {
-                  "ar": "قبل خروج السائق",
-                  "en": "Before dispatch"
-                },
-                "shows": {
-                  "ar": "المراحل فقط، دون خريطة",
-                  "en": "Stages only, no map"
-                }
-              },
-              {
-                "state": {
-                  "ar": "انقطع موقع السائق",
-                  "en": "Driver location lost"
-                },
-                "shows": {
-                  "ar": "آخر موقع معروف مع وقت التحديث",
-                  "en": "Last known location with update time"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "title": {
-          "ar": "لوحة التحكم",
-          "en": "Dashboard"
-        },
-        "blocks": [
-          {
-            "type": "steps",
-            "cols": [
-              {
-                "ar": "الموظف",
-                "en": "Staff"
-              },
-              {
-                "ar": "النظام",
-                "en": "System"
-              },
-              {
-                "ar": "الأثر على العميل",
-                "en": "Effect on the customer"
-              }
-            ],
-            "items": [
-              {
-                "user": {
-                  "ar": "يستلم طلباً جديداً ويضغط **قبول**",
-                  "en": "Gets a new order, taps **Accept**"
-                },
-                "system": {
-                  "ar": "يغيّر الحالة إلى مقبول",
-                  "en": "Moves the order to Accepted"
-                },
-                "next": {
-                  "ar": "إشعار: قيد التجهيز",
-                  "en": "Notification: being prepared"
-                },
-                "alt": [
-                  {
-                    "if": {
-                      "ar": "لم يُقبل خلال ١٠ دقائق",
-                      "en": "Not accepted within 10 minutes"
-                    },
-                    "then": {
-                      "ar": "تنبيه للمدير (افتراض)",
-                      "en": "Alert to the admin (assumption)"
-                    }
-                  }
-                ]
-              },
-              {
-                "user": {
-                  "ar": "يضغط **رفض** ويختار السبب",
-                  "en": "Taps **Reject**, picks a reason"
-                },
-                "system": {
-                  "ar": "يلغي الطلب ويبدأ الاسترداد عبر البوابة",
-                  "en": "Cancels and starts the gateway refund"
-                },
-                "next": {
-                  "ar": "إشعار الإلغاء مع السبب",
-                  "en": "Cancellation notice with reason"
-                }
-              },
-              {
-                "user": {
-                  "ar": "يسند السائق",
-                  "en": "Assigns a driver"
-                },
-                "system": {
-                  "ar": "ينقل الطلب إلى مع السائق ويبدأ التتبع",
-                  "en": "Moves to Out for delivery, starts tracking"
-                },
-                "next": {
-                  "ar": "تظهر الخريطة في C-09",
-                  "en": "Map appears in C-09"
-                }
-              }
-            ]
-          },
-          {
-            "type": "table",
-            "title": {
-              "ar": "الصلاحيات",
-              "en": "Permissions"
-            },
-            "head": [
-              {
-                "ar": "الإجراء",
-                "en": "Action"
-              },
-              {
-                "ar": "الموظف",
-                "en": "Staff"
-              },
-              {
-                "ar": "المدير",
-                "en": "Admin"
-              }
-            ],
-            "rows": [
-              [
-                {
-                  "ar": "قبول / رفض الطلبات",
-                  "en": "Accept / reject orders"
-                },
-                "✓",
-                "✓"
-              ],
-              [
-                {
-                  "ar": "إسناد سائق",
-                  "en": "Assign driver"
-                },
-                "✓",
-                "✓"
-              ],
-              [
-                {
-                  "ar": "إدارة المنتجات والأسعار",
-                  "en": "Manage products and prices"
-                },
-                "—",
-                "✓"
-              ],
-              [
-                {
-                  "ar": "التقارير اليومية",
-                  "en": "Daily reports"
-                },
-                "—",
-                "✓"
-              ],
-              [
-                {
-                  "ar": "إدارة الموظفين",
-                  "en": "Manage staff"
-                },
-                "—",
-                "✓"
-              ]
-            ]
           }
         ]
       },
@@ -1533,6 +1885,7 @@
         "ar": "أي مزوّد رسائل SMS وأي بوابة دفع؟",
         "en": "Which SMS provider and which payment gateway?"
       }
-    ]
+    ],
+    "output": "single"
   }
 }

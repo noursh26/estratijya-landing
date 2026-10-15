@@ -395,6 +395,15 @@ table.st tr.alt b{color:#B77F00}
 .scr table{margin:2px 0 6px}
 .scr ul{margin-bottom:2px}
 .note.warn{background:#FFF6DF;border-inline-start-color:#E0A526}
+.chips{display:inline-flex;align-items:center;gap:4px;margin-inline-start:6px;line-height:1.4}
+.chip{white-space:nowrap;display:inline-block;line-height:1.5;font-size:7.4pt;font-weight:600;color:#12403C;background:#EDF4F1;border:1px solid rgba(3,27,28,.12);border-radius:999px;padding:0 7px}
+.part{page-break-before:always;background:#031B1C;color:#EDF4F1;border-radius:14px;padding:14px 20px;margin:4px 0 6px}
+.part.nb{page-break-before:auto;margin-top:18px}
+.part .pl{color:#64D893;font-weight:600;font-size:8.6pt}
+.part .pt{font-size:16pt;font-weight:700;color:#fff;line-height:1.3}
+.part .chip{background:rgba(237,244,241,.12);color:#EDF4F1;border-color:rgba(237,244,241,.25)}
+.part .chips{margin:4px 0 0}
+.part p{color:rgba(237,244,241,.8);margin:6px 0 0;font-size:8.8pt}
 """
 
 FM_KINDS = {  # kind: (ar, en, swatch css)
@@ -471,13 +480,13 @@ def diagram(b, T):
     Y = lambda y: (H - y) * s
     byid = {n["id"]: n for n in nodes}
     gv = {o["_gvid"]: o for o in lay.get("objects", [])}
-    html = ""
-    for o in lay.get("objects", []):  # clusters first, so they sit underneath
+    html, under = "", ""
+    for o in lay.get("objects", []):  # lanes go under the arrows
         if "bb" in o and o.get("name", "").startswith("cluster_"):
             gi = int(o["name"].split("_")[1])
             a, bt, c, tp = map(float, o["bb"].split(","))
             l, r = sorted((X(a), X(c)))
-            html += f'<div class="cl" style="left:{l:.1f}pt;top:{Y(tp):.1f}pt;width:{r - l:.1f}pt;height:{(tp - bt) * s:.1f}pt"><span dir="{LANG == 'ar' and 'rtl' or 'ltr'}" style="font-size:{7.2 * s:.1f}pt;{'right' if rtl else 'left'}:8px">{E(b["groups"][gi].get("label"))}</span></div>'
+            under += f'<div class="cl" style="left:{l:.1f}pt;top:{Y(tp):.1f}pt;width:{r - l:.1f}pt;height:{(tp - bt) * s:.1f}pt"><span dir="{LANG == 'ar' and 'rtl' or 'ltr'}" style="font-size:{7.2 * s:.1f}pt;{'right' if rtl else 'left'}:8px">{E(b["groups"][gi].get("label"))}</span></div>'
     svg = []
     for e in lay.get("edges", []):
         eid = str(e.get("id", ""))
@@ -521,7 +530,7 @@ def diagram(b, T):
         code = f'<span class="c" style="font-size:{FM_FS * 0.86 * s:.1f}pt">{E(n["code"])}</span>' if n.get("code") else ""
         html += (f'<div class="nd k-{kind}" dir="{'rtl' if rtl else 'ltr'}" style="left:{X(cx) - w * s / 2:.1f}pt;top:{Y(cy) - h * s / 2:.1f}pt;width:{w * s:.1f}pt;height:{h * s:.1f}pt;font-size:{FM_FS * s:.1f}pt">'
                  f'{code}<span>{E(n.get("label"))}</span></div>')
-    out = f'<div class="dgw"><div class="dg" style="margin-left:{max(0, (FM_MAX_W + 4 - W * s) / 2):.1f}pt;width:{W * s:.1f}pt;height:{H * s:.1f}pt"><svg width="{W * s:.1f}pt" height="{H * s:.1f}pt" viewBox="0 0 {W * s:.1f} {H * s:.1f}">{"".join(svg)}</svg>{html}</div></div>'
+    out = f'<div class="dgw"><div class="dg" style="margin-left:{max(0, (FM_MAX_W + 4 - W * s) / 2):.1f}pt;width:{W * s:.1f}pt;height:{H * s:.1f}pt">{under}<svg width="{W * s:.1f}pt" height="{H * s:.1f}pt" viewBox="0 0 {W * s:.1f} {H * s:.1f}">{"".join(svg)}</svg>{html}</div></div>'
     if b.get("caption"):
         out += f'<p class="cap">{E(b["caption"])}</p>'
     used = [k for k in FM_KINDS if any(n.get("kind", "screen") == k for n in nodes)]
@@ -548,6 +557,8 @@ def screen(b, T):
         o += f'<h5>{T("قواعد التحقق", "Validation")}</h5><ul>' + "".join(f"<li>{E(x)}</li>" for x in b["validation"]) + "</ul>"
     if b.get("states"):
         o += f'<h5>{T("الحالات", "States")}</h5>' + tbl([T("الحالة", "State"), T("ما يظهر للمستخدم", "What the user sees")], [[E(a), E(c)] for a, c in (_pair(x, "state", "shows") for x in b["states"])])
+    if b.get("variants"):
+        o += f'<h5>{T("الفروقات بين المنصات", "Differences between platforms")}</h5>' + tbl([T("المنصة", "Platform"), T("الفرق", "Difference")], [[E(a), E(c)] for a, c in (_pair(x, "platform", "diff") for x in b["variants"])])
     if b.get("notes"):
         o += f'<h5>{T("ملاحظات", "Notes")}</h5><ul>' + "".join(f"<li>{E(x)}</li>" for x in b["notes"]) + "</ul>"
     return o + "</div>"
@@ -593,7 +604,28 @@ def fm_blocks(blocks, T):
     return o
 
 
-def flowmap(l, d=None):
+def _chips(xs):
+    return "".join(f'<span class="chip">{E(x)}</span>' for x in xs or [])
+
+
+def _section(n, sec, T):
+    o = H(n, E(sec.get("title")) + (f'<span class="chips">{_chips(sec.get("platforms"))}</span>' if sec.get("platforms") else ""))
+    if sec.get("intro"):
+        o += f"<p>{E(sec['intro'])}</p>"
+    return o + fm_blocks(sec.get("blocks", []), T)
+
+
+def _aq(x, T, h3=True):
+    o = ""
+    if x.get("assumptions"):
+        o += f'<h3>{T("افتراضات (غير مؤكدة من العميل)", "Assumptions (not confirmed by the client)")}</h3><ul>' + "".join(f"<li>{E(a)}</li>" for a in x["assumptions"]) + "</ul>"
+    if x.get("open_questions"):
+        o += f'<h3>{T("أسئلة للعميل", "Questions for the client")}</h3><ul class="check">' + "".join(f"<li>{E(q)}</li>" for q in x["open_questions"]) + "</ul>"
+    return o
+
+
+def flowmap(l, d=None, only_part=None):
+    """only_part: index of one part to keep (shared sections are always kept) — used for per-part files."""
     global LANG
     LANG = l
     d = d or {}
@@ -603,9 +635,12 @@ def flowmap(l, d=None):
     no = d.get("project_no") or "EST-IT-[000]"
     b = (f'<div class="meta"><span>{T("رقم المشروع", "Project No")}<b>{no}</b></span><span>{T("التاريخ", "Date")}<b>{L(d.get("date"), "DD/MM/YYYY")}</b></span>'
          f'<span>{T("الإصدار", "Version")}<b>{E(fm.get("version") or "1.0")}</b></span><span>{T("الحالة", "Status")}<b>{T("سرّي — داخلي", "Confidential — internal")}</b></span></div>')
-    sections = fm.get("sections") or []
+    items = fm.get("sections") or []
+    parts = [i for i, it in enumerate(items) if "sections" in it]
+    if only_part is not None:
+        items = [it for i, it in enumerate(items) if "sections" not in it or i == only_part]
     if not fm:
-        b += f'<div class="note">{T("قالب فارغ: تُبنى الخريطة من أقسام، وكل قسم يستخدم ما يناسبه: مخطط، خطوات، بطاقات شاشات، جداول، قوائم.", "Blank template: the map is built from sections, each using what fits it: diagrams, steps, screen cards, tables, lists.")}</div>'
+        b += f'<div class="note">{T("قالب فارغ: تُبنى الخريطة من أقسام، وكل قسم يستخدم ما يناسبه: مخطط، خطوات، بطاقات شاشات، جداول، قوائم. المشاريع متعددة المنصات تُقسم إلى أجزاء (جزء لكل منصة) مع أقسام مشتركة.", "Blank template: the map is built from sections, each using what fits it: diagrams, steps, screen cards, tables, lists. Multi-platform projects are split into parts (one per platform) plus shared sections.")}</div>'
         for i, (a, e) in enumerate([("المستخدمون والمنصات", "Users and platforms"), ("خريطة التنقل العامة", "Navigation map"),
                                      ("الفلوهات حسب كل دور", "Flows per role"), ("تفاصيل الشاشات", "Screen details"),
                                      ("الإشعارات والروابط العميقة", "Notifications and deep links"), ("الحالات الطرفية", "Edge cases"),
@@ -614,30 +649,67 @@ def flowmap(l, d=None):
     else:
         if fm.get("summary"):
             b += f"<p>{E(fm['summary'])}</p>"
+        # number every section first (screen index needs the numbers)
+        flat, letters = [], {}
+        for it in items:
+            if "sections" in it:
+                letters[id(it)] = chr(65 + len(letters))
+                flat += [(sec, it) for sec in it["sections"]]
+            else:
+                flat.append((it, None))
+        scr = [(k, bl) for k, (sec, _) in enumerate(flat) for bl in sec.get("blocks", []) if bl.get("type") == "screen"]
         n = 0
-        scr = [(si, bl) for si, s in enumerate(sections) for bl in s.get("blocks", []) if bl.get("type") == "screen"]
         if scr and fm.get("screen_index", True):
-            n += 1
-            first = n + 1
-            b += H(n, T("فهرس الشاشات", "Screen index"))
-            b += tbl([T("الرمز", "Code"), T("الشاشة", "Screen"), T("المنصة / الدور", "Platform / role"), T("القسم", "Section")],
-                     [[f"<b>{E(x.get('code'))}</b>", E(x.get("name")), " · ".join(E(x[k]) for k in ("platform", "role") if x.get(k)), f"{first + si:02d}"] for si, x in scr])
-        for s in sections:
-            n += 1
-            b += H(n, E(s.get("title")))
-            if s.get("intro"):
-                b += f"<p>{E(s['intro'])}</p>"
-            b += fm_blocks(s.get("blocks", []), T)
+            n = 1
+            b += H(1, T("فهرس الشاشات", "Screen index"))
+            head = [T("الرمز", "Code"), T("الشاشة", "Screen"), T("المنصة / الدور", "Platform / role")] + ([T("الجزء", "Part")] if letters else []) + [T("القسم", "Section")]
+            rows = []
+            for k, x in scr:
+                part = flat[k][1]
+                rows.append([f"<b>{E(x.get('code'))}</b>", E(x.get("name")), " · ".join(E(x[q]) for q in ("platform", "role") if x.get(q))]
+                            + ([letters[id(part)] if part else T("مشترك", "Shared")] if letters else []) + [f"{n + 1 + k:02d}"])
+            b += tbl(head, rows)
+        k = 0
+        for it in items:
+            if "sections" in it:
+                cls = "part" + ("" if it.get("new_page", True) else " nb")
+                b += (f'<div class="{cls}"><span class="pl">{T("الجزء", "Part")} {letters[id(it)]}</span><div class="pt">{E(it.get("title"))}</div>'
+                      + (f'<div class="chips">{_chips(it.get("platforms"))}</div>' if it.get("platforms") else "")
+                      + (f'<p>{E(it["intro"])}</p>' if it.get("intro") else "") + "</div>")
+                for sec in it["sections"]:
+                    k += 1
+                    b += _section(n + k, sec, T)
+                if it.get("assumptions") or it.get("open_questions"):
+                    b += f'<div class="note">{T("افتراضات وأسئلة خاصة بهذا الجزء", "Assumptions and questions for this part")}</div>' + _aq(it, T)
+            else:
+                k += 1
+                b += _section(n + k, it, T)
         if fm.get("assumptions") or fm.get("open_questions"):
-            n += 1
-            b += H(n, T("افتراضات وأسئلة مفتوحة", "Assumptions and open questions"))
-            if fm.get("assumptions"):
-                b += f'<h3>{T("افتراضات (غير مؤكدة من العميل)", "Assumptions (not confirmed by the client)")}</h3><ul>' + "".join(f"<li>{E(x)}</li>" for x in fm["assumptions"]) + "</ul>"
-            if fm.get("open_questions"):
-                b += f'<h3>{T("أسئلة للعميل", "Questions for the client")}</h3><ul class="check">' + "".join(f"<li>{E(x)}</li>" for x in fm["open_questions"]) + "</ul>"
+            b += H(n + k + 1, T("افتراضات وأسئلة مفتوحة", "Assumptions and open questions")) + _aq(fm, T)
     sub = (L(pr.get("name")) + T(" — سرّي", " — Confidential")) if pr.get("name") else T("[اسم المشروع] — سرّي", "[Project name] — Confidential")
+    if only_part is not None:
+        pt = (d.get("flow_map") or {}).get("sections", [])[only_part]
+        sub = L(pt.get("label") or pt.get("title")) + " · " + sub
     return page(l, T("خريطة تدفق UI/UX", "UI/UX Flow Map"), sub, b,
                 f"<b>{no}</b> · {L(cl.get('name'), T('اسم العميل', 'Client name'))}", T("للاستخدام الداخلي فقط", "Internal use only"), FM_CSS)
+
+
+def flowmap_files(l, d):
+    """[(filename suffix, html)] according to flow_map.output: single (default) | per_part | both."""
+    fm = (d or {}).get("flow_map") or {}
+    mode = fm.get("output", "single")
+    parts = [i for i, it in enumerate(fm.get("sections") or []) if "sections" in it]
+    out = []
+    if mode in ("single", "both") or not parts:
+        out.append(("", flowmap(l, d)))
+    if mode in ("per_part", "both") and parts:
+        global LANG
+        for i in parts:
+            LANG = l
+            it = fm["sections"][i]
+            lab = re.sub(r'[\\/:*?"<>|]', "-", L(it.get("label") or it.get("title")))
+            out.append((f" - {lab}", flowmap(l, d, i)))
+    return out
 
 
 # ───────────────────────── CLI ─────────────────────────
@@ -672,11 +744,14 @@ def main():
         tag = f" - {cn}" if cn else ""
     for key in a.only.split(","):
         for l, nm in zip(("ar", "en"), NAMES[key]):
-            fn = {"playbook": lambda l: playbook(l), "internal": lambda l: internal(l, data), "quotation": lambda l: quotation(l, data),
-                  "flowmap": lambda l: flowmap(l, data)}[key]
-            path = os.path.join(a.out, f"{nm}{'' if key == 'playbook' else tag} ({l.upper()}).pdf")
-            weasyprint.HTML(string=fn(l)).write_pdf(path)
-            print(path)
+            if key == "flowmap":
+                docs = flowmap_files(l, data)
+            else:
+                docs = [("", {"playbook": lambda: playbook(l), "internal": lambda: internal(l, data), "quotation": lambda: quotation(l, data)}[key]())]
+            for suffix, html in docs:
+                path = os.path.join(a.out, f"{nm}{'' if key == 'playbook' else tag}{suffix} ({l.upper()}).pdf")
+                weasyprint.HTML(string=html).write_pdf(path)
+                print(path)
 
 
 SCHEMA = r"""
@@ -707,7 +782,14 @@ Quotation totals (discount, 5% VAT, total, total in words) are computed from ser
   "flow_map": {
     "version": "1.0", "summary": {...},
     "screen_index": true,            // auto table of every "screen" block (default true)
-    "sections": [{"title": {...}, "intro": {...}, "blocks": [ BLOCK, ... ]}],
+    "output": "single",              // single (default) | per_part (one PDF per part) | both
+    "sections": [ SECTION or PART, ... ]  // any order; shared sections and parts can be mixed
+      SECTION = {"title": {...}, "platforms": [{...}], "intro": {...}, "blocks": [ BLOCK, ... ]}
+      PART    = {"title": {...}, "label": {...} /*short, for file names*/, "platforms": [{...}], "intro": {...},
+                 "new_page": true, "sections": [SECTION, ...], "assumptions": [...], "open_questions": [...]}
+      Use parts when the project spans platforms or apps (customer app, web dashboard, driver app, website…):
+      one part per platform/app, and shared sections (outside any part) for what crosses platforms —
+      users, the system-wide lifecycle, notifications, sync between platforms. One platform = no parts.
     "assumptions": [{...}],          // things inferred, not confirmed by the client
     "open_questions": [{...}]
   }
@@ -720,7 +802,7 @@ Quotation totals (discount, 5% VAT, total, total in words) are computed from ser
                                                     "alt":[{"if":{...}, "then":{...}}]}]}
     {"type":"screen", "code":"C-01", "name":{...}, "platform":{...}, "role":{...}, "purpose":{...},
        "entry":[{...}], "elements":[{...}], "actions":[{"do":{...}, "then":{...}}], "validation":[{...}],
-       "states":[{"state":{...}, "shows":{...}}], "notes":[{...}]}
+       "states":[{"state":{...}, "shows":{...}}], "variants":[{"platform":{...}, "diff":{...}}], "notes":[{...}]}
     {"type":"diagram", "dir":"TB"|"LR", "caption":{...}, "legend":true,
        "nodes":[{"id":"otp", "kind":"screen|action|system|decision|error|external|terminal", "code":"C-02", "label":{...}}],
        "edges":[{"from":"otp", "to":"home", "label":{...}, "kind":"default|ok|error|alt", "constraint":true}],
