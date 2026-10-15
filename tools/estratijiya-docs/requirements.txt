@@ -1,3 +1,4 @@
 weasyprint
 pillow
 num2words
+# system package: graphviz (the `dot` binary) for flow-map diagrams
